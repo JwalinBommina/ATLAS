@@ -1,0 +1,2754 @@
+{
+  "name": "ATLAS (ATS ready Talent Language Analysis System) copy",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### SYSTEM ROLE: Senior Technical Recruiter & Engineering Lead. Expert in Anti-Robot Protocol (ARP) and Keyword Density Optimization.\n\n### INPUT DATA:\nJob Description: \n<jd>{{ $('Job Description Extraction').item.json.job_description }} </jd>\nJob URL : <jobURL>{{ $('Loop Over JOB URL').item.json['JOB URL'] }}<jobURL>\n\n### DOMAIN FOCUS (Skills 1-4) :\n<domain>\n- All technical skills must be strictly pulled from or translated into these domains:\n  - Frontend, Backend, Fullstack.\n  - Software Engineering, SDLC, Design Patterns, Testing.\n  - Cloud & DevOps\n  - Microservices, Databases, Data Pipelines, APIs.\n  -Cybersecurity basics, Latency Optimization, Scalability.\n</domain>\n\n### TECHNICAL ARSENAL:\n<arsenal>\n  <frontend>React, Next.js 15, Next.js 14, Angular, Vue.js, TypeScript, JavaScript, Tailwind CSS, Redux, HTML5, CSS3, Chart.js, Zod</frontend>\n  <backend>Java, Node.js, Spring Boot, Python, Express, Go, Apache, Vercel</backend>\n  <database>PostgreSQL, MongoDB, MSSQL, MySQL, Supabase, Firebase, Prisma, NoSQL, Appwrite, Data Modeling</database>\n  <infrastructure>GCP, Azure, Docker, Kubernetes, Kafka, CI/CD, GitHub Actions, Git</infrastructure>\n  <api_and_security>REST, GraphQL, OpenAI API, Plaid API, Stripe SDK, Apollo, Datadog, Sentry, Cursor, Claude, Codex, Agile, SDLC, Design Patterns, Testing, Microservices, APIs</api_and_security>\n</arsenal>\n\n### TASK 1: BIG SIX SKILLS\n- IDENTIFY: Scan the text for the most emphasized technical tools, architectural patterns, and leadership requirements.\n- RANK: Select the 4 most critical technical/architectural skills and the 2 most critical professional/leadership skills based purely on the frequency and weight of the requirements in the text.\n- Skill 1,2,3: Each Technical skill should have only <domain> and top 3 <arsenal> found in <jd> tags for that <domain>, no preamble (e.g., <domain>(<arsenal>)\"). Each domain used only once. Should Use top 3 <arsenal> found in <jd> tags for that <domain>. Output should be <domain>(<arsenal>).\n- Skill 4: HIGH-LEVEL OUTCOME. Identify a senior-level result mentioned in the text (e.g., \"[System Type] Architecture\" or \"[Process] Optimization\") strcitly within <domain>, if the skill is not in <domain> then change it to make it similar to something in <domain>.\n- Skills 5 & 6: PROFESSIONAL SOFT SKILLS. Identify the two most emphasized soft skills requirements from <jd>.\n- Output: Exactly as Skill_1: \"skill1\", ...\n\n### TASK 2: JOB DETAILS\n- Scan <jd> for functional phrases and content themes.\n- Identify job title, company name, industry .\n-Output: Job Title: \"job title\", Company Name: \"company name\", Industry: \"industry\"\n\n### TASK 3: MATCHING LANGUAGE SUGGESTIONS\n- Scan <jd> for functional phrases and content themes.\n- Generate 8 phrases that would most significantly improve a resume's Match Score.\n- Sort them by impact (highest impact first).\n- Constraints: Use 1-2 breakpoints to space out sections. Avoid flowery language and abbreviations. Maintain a high signal-to-noise ratio. Provide the output in the specific Markdown format requested.\n- Output: Exactly as Bullet_1: \"bullet1\", ...\n\n### TASK 4: BUZZWORD SUGGESTIONS\n- Scan <jd> for functional phrases and content themes.\n- Identify 8 organization-specific \"Match Words\" (one or two-word combinations).\n- Sort them by impact (highest impact first).\n- Constraints: Use 1-2 breakpoints to space out sections. Avoid flowery language and abbreviations. Maintain a high signal-to-noise ratio. Provide the output in the specific Markdown format requested.\n- Output: Exactly as Buzzword_1: \"buzzword1\", ..."
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        3184,
+        208
+      ],
+      "id": "b7f49093-0a91-4687-a058-3ec3ff1e1ed1",
+      "name": "Big Six Skills"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawOutput = $json.output[0].content[0].text;\n\n/**\n * Flexible extractor for \"Label: Value\" patterns.\n * Matches: Label: \"Value\", Label: Value, or Label: [\"Value\"]\n */\nconst extract = (label) => {\n  // Escapes special characters and looks for the label followed by a colon or equals sign\n  const regex = new RegExp(`${label}\\\\s*[:=]\\\\s*(?:(?:\\\\[?\\\\s*\")|(?:\\\\[?\\\\s*))([^\"\\\\n\\\\]]+)`, 'i');\n  const match = rawOutput.match(regex);\n  return match ? match[1].trim() : \"\";\n};\n\nconst result = {\n  // Task 1: Big Six\n  \"Big Six Skill 1\": extract(\"Skill_1\"),\n  \"Big Six Skill 2\": extract(\"Skill_2\"),\n  \"Big Six Skill 3\": extract(\"Skill_3\"),\n  \"Big Six Skill 4\": extract(\"Skill_4\"),\n  \"Big Six Skill 5\": extract(\"Skill_5\"),\n  \"Big Six Skill 6\": extract(\"Skill_6\"),\n\n  // Task 2 & 3: Job Info\n  \"Job Title\": extract(\"Job Title\"),\n  \"Company Name\": extract(\"Company Name\"),\n  \"Industry\": extract(\"Industry\"),\n\n  \"Matching Language Bullets\": [],\n  \"Buzzwords\": []\n};\n\n// Task 4 & 5: Bullets and Buzzwords\n// Note: Matches \"Bullet X\" and \"Buzzword X\" from your sample\nfor (let i = 1; i <= 8; i++) {\n  const val = extract(`Bullet_${i}`);\n  if (val) result[\"Matching Language Bullets\"].push(val);\n}\nfor (let i = 1; i <= 8; i++) {\n  const val = extract(`Buzzword_${i}`);\n  if (val) result[\"Buzzwords\"].push(val);\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3504,
+        208
+      ],
+      "id": "9f9c98b9-a4b5-45c3-9a67-9a62b5132b3d",
+      "name": "Big Six Skills Map"
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Updated Resume').item.json.documentId }}\n",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5632,
+        112
+      ],
+      "id": "c4da6220-00cb-49eb-a7bc-d30dc543aae2",
+      "name": "Delete Resume.doc"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $json.output[0].content[0].text;\n\n/**\n * Extracts all text between two string markers and cleans it.\n */\nconst getSection = (startMarker, endMarker) => {\n  const startLabel = `${startMarker}:`;\n  const startIndex = text.indexOf(startLabel);\n  \n  if (startIndex === -1) return \"\";\n\n  const contentStart = startIndex + startLabel.length;\n  let contentEnd;\n\n  if (endMarker) {\n    const endLabel = `${endMarker}:`;\n    contentEnd = text.indexOf(endLabel);\n  }\n\n  // If no end marker is found, capture to the end\n  if (!contentEnd || contentEnd === -1) {\n    contentEnd = text.length;\n  }\n\n  const rawContent = text.substring(contentStart, contentEnd).trim();\n\n  // CLEANING LOGIC:\n  // 1. Remove asterisks (*), hyphens (-), and hash symbols (#)\n  // 2. KEEP double quotes (\") \n  // 3. Trim extra whitespace and collapse empty lines\n  return rawContent\n    .replace(/[*#\\-]/g, \"\")      // Removed \" from this list to keep quotes\n    .replace(/^\\s*[\\r\\n]/gm, \"\")  // Removes empty lines created by cleaning\n    .trim();\n};\n\nreturn [\n  {\n    json: {\n      \"Subject\": getSection(\"Subject\", \"Section 1\"),\n      \"Section 1\": getSection(\"Section 1\", \"Section 2\"),\n      \"Section 2\": getSection(\"Section 2\", \"Section 3\"),\n      \"Section 3\": getSection(\"Section 3\", \"Section 4\"),\n      \"Section 4\": getSection(\"Section 4\", null)\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4016,
+        304
+      ],
+      "id": "ca8088f2-cc79-4de0-b034-a50c3a8d02e3",
+      "name": "Cover Letter Map"
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $('Updated Cover Letter').item.json.documentId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4944,
+        304
+      ],
+      "id": "f326287a-9cc1-4608-a13a-d4894abf2c5b",
+      "name": "Delete Cover Letter.doc"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Capture the input\nconst inputData = $input.item.json.output?.[0]?.content?.[0]?.text || $input.first().json.text || \"\";\n\n/**\n * Helper function to extract Score as a Number and Analysis text\n * Supports: \"Score: 20/25\" OR \"Score: 20 out of 25\"\n */\nconst parseSection = (marker, source) => {\n  // Regex breakdown:\n  // (?:Score:\\s*)?          -> Optional \"Score: \" prefix\n  // (\\d+)                   -> Group 1: The actual score\n  // \\s*(?:\\/|out\\s+of)\\s* -> Match \"/\" OR \"out of\"\n  // (\\d+)                   -> Group 2: The max score\n  // [.\\s]* -> Match period or whitespace\n  // ([\\s\\S]*?)              -> Group 3: The analysis text\n  // (?=\\n###|$)             -> Stop at the next header or end of string\n  const regex = new RegExp(`${marker}\\\\s*[\\\\r\\\\n]+(?:Score:\\\\s*)?(\\\\d+)\\\\s*(?:\\\\/|out\\\\s+of)\\\\s*(\\\\d+)[.\\\\s]*([\\\\s\\\\S]*?)(?=\\\\n###|$)`, \"i\");\n  \n  const match = source.match(regex);\n  \n  if (match) {\n    return {\n      score: parseInt(match[1], 10), \n      analysis: match[3].trim()\n    };\n  }\n  return { score: 0, analysis: \"Section not found\" };\n};\n\n// 2. Extract Overall Alignment Score (usually at the top)\nconst scoreMatch = inputData.match(/Alignment Score:\\s*(\\d+)\\s*(?:\\/|out\\s+of)\\s*(\\d+)/i);\nconst alignmentValue = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;\n\n// 3. Extract Overview Analysis\nconst overviewMatch = inputData.match(/### Overview\\s+([\\s\\S]*?)\\s+### Analysis/i);\nconst overviewWhy = overviewMatch ? overviewMatch[1].trim() : \"\";\n\n// 4. Parse specific sections\nconst sections = {\n  velocity: parseSection(\"### TITLE_VELOCITY\", inputData),\n  rigor:    parseSection(\"### TITLE_RIGOR\", inputData),\n  depth:    parseSection(\"### TITLE_DEPTH\", inputData),\n  base:     parseSection(\"### TITLE_BASE\", inputData),\n  dna:      parseSection(\"### TITLE_DNA\", inputData)\n};\n\n// 5. Return formatted JSON\nreturn {\n  alignment_score: alignmentValue,\n  alignment_why: overviewWhy,\n  \n  velocity_score: sections.velocity.score,\n  velocity_why: sections.velocity.analysis,\n  \n  rigor_score: sections.rigor.score,\n  rigor_why: sections.rigor.analysis,\n  \n  depth_score: sections.depth.score,\n  depth_why: sections.depth.analysis,\n  \n  base_score: sections.base.score,\n  base_why: sections.base.analysis,\n  \n  dna_score: sections.dna.score,\n  dna_why: sections.dna.analysis\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4480,
+        112
+      ],
+      "id": "698f1201-9a5e-41ab-a11b-74ce160e3ff6",
+      "name": "Score Map"
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputString = $input.first().json.output[0].content[0].text; \n\nfunction extractByKeys(str, startKey, endKey) {\n  const lowerStr = str.toLowerCase();\n  \n  // 1. Find where the Key Name starts\n  const keyIdx = lowerStr.indexOf(startKey.toLowerCase());\n  if (keyIdx === -1) return \"\";\n\n  // 2. Find the FIRST double quote AFTER the Key Name\n  // This skips colons, spaces, and stray letters like \"o\" or \"l 1\"\n  const valueStartMarker = str.indexOf('\"', keyIdx + startKey.length);\n  if (valueStartMarker === -1) return \"\";\n  \n  const valueStart = valueStartMarker + 1;\n  let extracted = \"\";\n\n  if (endKey) {\n    // 3. Find the End Key\n    const endIdx = lowerStr.indexOf(endKey.toLowerCase(), valueStart);\n    if (endIdx !== -1) {\n      // Look back from the End Key to find the closing quote of our value\n      const closingQuote = str.lastIndexOf('\"', endIdx);\n      extracted = (closingQuote > valueStart) ? str.substring(valueStart, closingQuote) : str.substring(valueStart, endIdx);\n    } else {\n      extracted = str.substring(valueStart);\n    }\n  } else {\n    // 4. For the last item, find the very last quote in the string\n    const lastQuote = str.lastIndexOf('\"');\n    extracted = (lastQuote > valueStart) ? str.substring(valueStart, lastQuote) : str.substring(valueStart);\n  }\n\n  // 5. Clean up escape characters and newlines\n  return extracted\n    .replace(/\\\\\"/g, '\"') \n    .replace(/\\\\n/g, ' ')\n    .trim();\n}\n\nconst result = {\n  subject: extractByKeys(inputString, \"Subject\", \"Body Intro\"),\n  bodyIntro: extractByKeys(inputString, \"Body Intro\", \"Skill 1\"),\n  skill1: extractByKeys(inputString, \"Skill 1\", \"Skill 2\"),\n  skill2: extractByKeys(inputString, \"Skill 2\", \"Body Extro\"),\n  bodyExtro: extractByKeys(inputString, \"Body Extro\", \"Resume Intro\"),\n  resumeIntro: extractByKeys(inputString, \"Resume Intro\", null)\n};\n\nreturn [ { json: result } ];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2096,
+        752
+      ],
+      "id": "0fc2fdd1-e7c1-4401-8c49-6b51918a4984",
+      "name": "Email Map"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "=gpt-4o-mini",
+          "mode": "id"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### ROLE:\nSenior Technical Recruiter & Engineering Lead (Hiring Manager).\n\n\n### TASK:\n- Write a high-impact outreach email.\n- Subject: Create a subject line that is 70% technical/witty and 30% functional.\nStructure should be [Witty Hook] | {{ $('Loop Over Emails').item.json['JOB TITLE'] }}. Must use the AA{{ $('Loop Over Emails').item.json.INDUSTRY }} to make a clever connection (e.g., if Industry is Fintech, mention \"low latency\" or \"transaction integrity\"). The [Witty Hook] must be at least 5 words long to ensure personality.\n- Body Intro: Start with a charismatic, low-friction intro that mentions {{ $('Loop Over Emails').item.json['COMPANY NAME'] }} specifically. Don't say \"I'm applying,\"Instead, make a clever observation about their product or a common pain point they solve, then transition smoothly into a sentence about how I can help them win. End the intro with a unique, punchy lead-in to my skills list. 20 words output. No em dashes.\n- Skill1: Provide a high-agency \"Proof of Work\" sentence for {{ $('Loop Over Emails').item.json['BIG SIX SKILL 1'] }} using \"{{ $json.extractedBullets[0].cleanText }}\",\"{{ $json.extractedBullets[2].cleanText }}\". Instead of saying what you did, explain the impact or the \"why\" behind it, ideally connecting it to the needs of a {{ $('Loop Over Emails').item.json['JOB TITLE'] }} in the {{ $('Loop Over Emails').item.json.INDUSTRY }} sector.\n- Skill2: Provide a high-agency \"Proof of Work\" sentence for {{ $('Loop Over Emails').item.json['BIG SIX SKILL 2'] }} using \"{{ $json.extractedBullets[1].cleanText }}\",\"{{ $json.extractedBullets[3].cleanText }}\". Instead of saying what you did, explain the impact or the \"why\" behind it, ideally connecting it to the needs of a {{ $('Loop Over Emails').item.json['JOB TITLE'] }} in the {{ $('Loop Over Emails').item.json.INDUSTRY }} sector.\n- Body Extro: Write a short, confident closing sentence. Suggest a specific, low-pressure technical chat about a challenge {{ $('Loop Over Emails').item.json['COMPANY NAME'] }} is currently solving in the {{ $('Loop Over Emails').item.json.INDUSTRY }} space. No em dashes.\n- Resume Intro: Write a short, clever, or witty sentence leading into the resume link. No em dashes.\n\n### TONE & PERSONALITY:\n- Persona: The smartest person in the room who is also fun to grab a coffee with. Be a people person: approachable, grounded, and charismatic. Strictly avoid being needy/desperate or dominating/arrogant. \n- Guardrails: Avoid corporate fluff, buzzword stuffing, or sounding like you are asking for a favor. You are offering a solution, not begging for a job. Keep the total length between 120 words to 150 words.\n\n### OUTPUT FORMATTING (MANDATORY):\n- Return ONLY a JSON-like object.\n- NO asterisks, NO hyphens, NO double quotes, NO markdown styling, NO bolding.\n- {\nSubject : \"subject\",\nBody Intro : \"body intro\"\nSkill 1 : \"skill1\"\nSkill 2 : \"skill2\"\nBody Extro : \"body extro\"\nResume Intro: \"resume intro\"\n}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        1776,
+        752
+      ],
+      "id": "708451b6-5ae6-4228-9da7-4ab87bd83312",
+      "name": "Email"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "01e1d5c9-7a8a-4f07-a783-e50ef405b50f",
+              "leftValue": "={{ $json.alignment_score }}",
+              "rightValue": 80,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4656,
+        112
+      ],
+      "id": "99a82e65-5792-4685-b503-46608e1439c3",
+      "name": "Score Checker"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.documentId }}/export?mimeType=application/pdf",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        4560,
+        304
+      ],
+      "id": "9cda551c-2b78-47ba-9c93-bf92a7dc50b1",
+      "name": "Converting to PDF Cover Letter"
+    },
+    {
+      "parameters": {
+        "url": "=https://www.googleapis.com/drive/v3/files/{{ $json.documentId }}/export?mimeType=application/pdf\n",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "googleDriveOAuth2Api",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        5248,
+        112
+      ],
+      "id": "aa3ef2a7-f36b-4ce8-9a78-334fbcc212f3",
+      "name": "Converting to PDF Resume"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.RESUME }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3616,
+        672
+      ],
+      "id": "e87488b8-6315-409d-bec5-4e85513da1de",
+      "name": "Download Resume"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        3792,
+        720
+      ],
+      "id": "62f507ce-2e8c-497e-abfd-b4cf0c713d81",
+      "name": "Resume as Text"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json['COVER LETTER'] }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3616,
+        880
+      ],
+      "id": "a16ca26d-924f-4017-81a9-692e508b196d",
+      "name": "Download Cover Letter"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/scripts/NAME_Resume.pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        3792,
+        576
+      ],
+      "id": "5e497820-b5ee-46f7-88de-6693dae909f5",
+      "name": "Write Resume to scripts"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/home/node/scripts/NAME_Cover_Letter.pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        3792,
+        880
+      ],
+      "id": "28088138-cbaf-47f8-b7b4-4517ab12dd50",
+      "name": "Write Cover Letter to scripts"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4144,
+        752
+      ],
+      "id": "09a102f8-b75f-40be-ae8f-f7e524541cd2",
+      "name": "Write Resume And Cover Letter"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  json: {\n    jobUrl: $('Loop Over JOB URLs To Apply').item.json['JOB URL'],\n    resume_text:$('Resume as Text').item.json.text,\n    coverletter_text:$('Cover Letter as Text').item.json.text,\n    ResumePath:\"/home/node/scripts/NAME_Resume.pdf\" ,\n    CoverLetterPath:\"/home/node/scripts/NAME_Cover_Letter.pdf\",\n\n    // Hardcoded profile fields\n    profile: {\n      firstName: \"\",\n      lastName:\"\",\n      email: \"\",\n      passwords: [\n          \"\", \n          \"\"\n      ],\n      countrycode: \"\", // COUNTRY NAME\n      phone: \"\",\n      linkedin: \"\",\n      github: \"\",\n      jobBoard: $input.item.json['JOB BOARD'],\n    }\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4336,
+        752
+      ],
+      "id": "0109eaf8-b046-4050-a8cc-d66cd6b8c9fb",
+      "name": "Prepare Application Data Map"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        752
+      ],
+      "id": "564af91a-2fe9-4b65-94e7-5a6602bab79d",
+      "name": "ATLAS - JOB APPLICATION"
+    },
+    {
+      "parameters": {
+        "content": "# ATLAS JOB APPLICATION\n",
+        "height": 656,
+        "width": 2148,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2976,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "fe6524be-cc3e-4241-804a-0b3019666a40",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n// Optimized to handle Workday JSON-LD and heavy CSS bloat\n\nfunction extractUniversal(html) {\n  if (!html || html.length < 100) return \"Error: HTML too short or empty.\";\n\n  // --- STRATEGY 1: The JSON-LD Payload (Highest Accuracy) ---\n  // We saw this in your PayPal output. It contains the clean text.\n  const jsonLdMatch = html.match(/<script type=\"application\\/ld\\+json\">([\\s\\S]*?)<\\/script>/i);\n  if (jsonLdMatch) {\n    try {\n      const data = JSON.parse(jsonLdMatch[1]);\n      // Workday usually nests this or puts it in an array\n      const rawDesc = data.description || (Array.isArray(data) ? data[0].description : null);\n      \n      if (rawDesc) {\n        return rawDesc\n          .replace(/<[^>]+>/g, '\\n') // Remove HTML tags\n          .replace(/&amp;/g, '&')\n          .replace(/&nbsp;/g, ' ')\n          .replace(/\\n\\s*\\n/g, '\\n\\n')\n          .trim();\n      }\n    } catch (e) { /* Fallback to Strategy 2 */ }\n  }\n\n  // --- STRATEGY 2: The Aggressive Body Clean ---\n  const bodyMatch = html.match(/<body[^>]*>([\\s\\S]*)<\\/body>/i);\n  let content = bodyMatch ? bodyMatch[1] : html;\n\n  return content\n    // 1. Kill the heavy stuff immediately\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')\n    .replace(/<svg[\\s\\S]*?<\\/svg>/gi, ' ')\n    // 2. Kill the CSS variable lists (the --cnvs-base stuff bloat)\n    .replace(/--[a-zA-Z0-9-]+:[^;]+;/g, ' ')\n    // 3. Structural conversion\n    .replace(/<h[1-6][^>]*>([\\s\\S]*?)<\\/h[1-6]>/gi, '\\n### $1\\n')\n    .replace(/<li>([\\s\\S]*?)<\\/li>/gi, '\\n* $1')\n    .replace(/<(p|br|div)[^>]*>/gi, '\\n')\n    // 4. Final tag strip and whitespace compression\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/[ \\t]+/g, ' ')\n    .replace(/\\n\\s*\\n/g, '\\n\\n')\n    .trim();\n}\n\nreturn $input.all().map(item => {\n  const rawHtml = item.json.stdout || \"\";\n  return {\n    json: {\n      job_description: extractUniversal(rawHtml)\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3008,
+        208
+      ],
+      "id": "3a780f0e-6c22-49f3-8711-9851e86ad855",
+      "name": "Job Description Extraction"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n\n  { site: \"jobs.lever.co\" },\n\n  { site: \"lever.co\" },\n\n  { site: \"boards.greenhouse.io\" },\n\n  { site: \"job-boards.greenhouse.io\" },\n\n  { site: \"jobs.ashbyhq.com\" },\n\n  { site: \"wellfound.com/jobs\" }, \n\n  { site: \"apply.workable.com\" },\n\n  { site: \"myworkdayjobs.com\" }, \n\n  { site: \"jobs.smartrecruiters.com\" },\n\n  { site: \"jobs.rippling.com\" },\n\n  { site: \"breezy.hr\" },\n\n  { site: \"jazzhr.com\" },  \n\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        16
+      ],
+      "id": "66404d0c-b55a-45b2-84b0-2499099515e7",
+      "name": "Job Boards"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "organic",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        896,
+        16
+      ],
+      "id": "bbca1746-f54e-46f4-8eaf-f0a4cc690bb0",
+      "name": "Split Out Jobs"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=node /home/node/scripts/fetch.js \"{{ $json.url }}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        16
+      ],
+      "id": "6245a316-fcfd-432c-b9e4-c45f995cc363",
+      "name": "Job Boards HTML Extract"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. ADD 'html' AS A PARAMETER HERE\nfunction extractJobDetails(html) {\n  // Clean HTML to text with spaces (Used for Years and Visa)\n  const textContent = html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/[-_]/g, ' ');\n  const textLower = textContent.toLowerCase();\n\n  // 2. Years Extraction\n  const numberMap = { 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10 };\n\n  const expPattern = /(?:minimum|at least|preferred|have|experience|años de)?\\s*(?:\\b(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(?:\\s*(?:-|–|—|to)\\s*\\d{1,2})?\\s*(?:\\(\\d+\\))?\\s*\\+?)\\s*(?:\\+?|or more\\s*)?(?:years?|años)(?:\\s*(?:of\\s*)?(?:experience|proven|required|minimum|at least|preferred|años de))?/i;\n\n  const expMatch = textContent.match(expPattern);\n  let yearsNum = 0; \n  let yearsText = 'Not mentioned';\n\n  if (expMatch) {\n    const rawMatch = expMatch[1].toLowerCase();\n    yearsNum = numberMap[rawMatch] || parseInt(rawMatch);\n    yearsText = expMatch[0].trim();\n    if (yearsNum > 25) {\n      yearsNum = 0;\n      yearsText = 'Not mentioned';\n    }\n  } else if (textLower.includes(\"entry level\") || textLower.includes(\"junior\")) {\n    yearsText = \"Entry/Junior\";\n  }\n\n  // 3. Visa Status\n  const sponsorshipKeywords = [\"visa sponsorship is available\",\"will sponsor\",\"willing to sponsor\",\"sponsorship available\",\"h1b sponsorship\",\"h-1b sponsorship\"];\n  const restrictiveKeywords = [\"us citizen\",\"u.s. citizen\",\"u.s. citizenship\",\"green card\",\"clearance required\",\"no sponsorship\",\"will not sponsor\",\"not able to sponsor\",\"not provide sponsorship\"];\n  \n  let visaStatus = \"Uncertain\";\n  if (sponsorshipKeywords.some(kw => textLower.includes(kw))) {\n    visaStatus = \"Yes\";\n  } else if (restrictiveKeywords.some(kw => textLower.includes(kw))) {\n    visaStatus = \"Restrictive (Citizen/GC/Clearance)\";\n  }\n\n  // 4. UNIVERSAL LOCATION\n  const stateAbbr = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'DC'];\n  const stateFull = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming', 'District of Columbia'];\n  const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville', 'Fort Worth', 'Columbus', 'San Francisco', 'Charlotte', 'Indianapolis', 'Seattle', 'Denver', 'Washington', 'Boston', 'Nashville', 'El Paso', 'Detroit', 'Portland', 'Las Vegas', 'Memphis', 'Louisville', 'Baltimore', 'Milwaukee', 'Albuquerque', 'Hartford', 'New Haven', 'Bridgeport'];\n\n  let locationSnippet = \"\";\n  const ldMatch = html.match(/<script[^>]*type=[\"']application\\/ld\\+json[\"'][^>]*>([\\s\\S]*?)<\\/script>/gi);\n  \n  if (ldMatch) {\n      ldMatch.forEach(block => {\n          const country = block.match(/\"addressCountry\"\\s*:\\s*\"([^\"]+)\"/i);\n          const region = block.match(/\"addressRegion\"\\s*:\\s*\"([^\"]+)\"/i);\n          const locality = block.match(/\"addressLocality\"\\s*:\\s*\"([^\"]+)\"/i);\n          locationSnippet += ` ${locality?.[1] || \"\"} ${region?.[1] || \"\"} ${country?.[1] || \"\"}`;\n      });\n  }\n\n  if (!locationSnippet.trim()) {\n      const meta = html.match(/<meta\\s+(?:name|property)=[\"'](?:og:description|description|og:url|og:title)[\"']\\s+content=[\"']([^\"']+)[\"']/gi);\n      if (meta) {\n        meta.forEach(m => {\n          const content = m.match(/content=[\"']([^\"']+)[\"']/i);\n          if (content) locationSnippet += \" \" + content[1];\n        });\n      }\n      const title = html.match(/<title>([\\s\\S]*?)<\\/title>/i);\n      if (title) locationSnippet += \" \" + title[1];\n  }\n\n  if (!locationSnippet.trim()) {\n      locationSnippet = html.substring(0, 4000);\n  }\n  \n  const cleanSnippet = locationSnippet.replace(/[\\/\\-_.,]/g, ' ');\n  const hasAbbr = stateAbbr.some(s => new RegExp(`\\\\b${s}\\\\b`).test(cleanSnippet));\n  const hasFullState = stateFull.some(s => new RegExp(`\\\\b${s}\\\\b`, 'i').test(cleanSnippet));\n  const hasCity = cities.some(c => new RegExp(`\\\\b${c}\\\\b`, 'i').test(cleanSnippet));\n  const hasCountry = /\\b(USA|U\\.S\\.A\\.|US|U\\.S\\.)\\b/.test(cleanSnippet) || /\\bUnited States( of America)?\\b/i.test(cleanSnippet);\n  const isUS = hasAbbr || hasFullState || hasCity || hasCountry;\n  return { yearsNum, yearsText, visaStatus, location: isUS ? \"USA\" : \"International\", isUS };\n}\n\nreturn $input.all().map((item, index) => {\n  const htmlContent = item.json.stdout || item.json.html || \"\";\n  const extracted = extractJobDetails(htmlContent);\n  const originalData = $(\"Remove application, apply\").itemMatching(index).json || {};\n\n  return {\n    json: {\n      source: originalData.source || \"Unknown\",\n      job_url: originalData.url || originalData.link || \"N/A\",\n      location: extracted.location,\n      years: extracted.yearsText,\n      visa_status: extracted.visaStatus,\n      _yearsNum: extracted.yearsNum,\n      _isUS: extracted.isUS\n    }\n  };\n}).filter(item => {\n  return item.json._isUS === true && item.json._yearsNum <= 3 && item.json.visa_status !== \"Restrictive (Citizen/GC/Clearance)\"; \n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        16
+      ],
+      "id": "133a7266-257e-4166-bf33-a483d4502054",
+      "name": "Job Boards Map"
+    },
+    {
+      "parameters": {
+        "jsCode": "const allowedSites = [\n  \"jobs.lever.co\",\n  \"lever.co\",\n  \"boards.greenhouse.io\",\n  \"job-boards.greenhouse.io\",\n  \"jobs.ashbyhq.com\",\n  \"wellfound.com/jobs\",\n  \"apply.workable.com\",\n  \"myworkdayjobs.com\",\n  \"jobs.smartrecruiters.com\",\n  \"jobs.rippling.com\",\n  \"breezy.hr\",\n  \"jazzhr.com\"\n];\n\n// Mapping complex domains to simple names\nconst sourceMap = {\n  \"lever.co\": \"Lever\",\n  \"greenhouse.io\": \"Greenhouse\",\n  \"ashbyhq.com\": \"Ashby\",\n  \"wellfound.com\": \"Wellfound\",\n  \"workable.com\": \"Workable\",\n  \"myworkdayjobs.com\": \"Workday\",\n  \"smartrecruiters.com\": \"Smartrecruiters\",\n  \"rippling.com\": \"Rippling\",\n  \"breezy.hr\": \"Breezy\",\n  \"jazzhr.com\": \"Jazzhr\"\n};\n\nconst seenJobs = new Set();\n\nreturn items\n  .filter(item => {\n    const link = item.json.link || \"\";\n    return allowedSites.some(site => link.includes(site));\n  })\n  .map(item => {\n    const rawUrl = item.json.link || \"\";\n\n    // Find which domain is present\n    const domainKey = Object.keys(sourceMap).find(key => rawUrl.includes(key));\n    const sourceName = domainKey ? sourceMap[domainKey] : \"other\";\n\n    // Clean URL: remove query params, hash, /apply, /application, and trailing slash\n    const cleanUrl = rawUrl\n      .split(/[?#]/)[0]\n      .replace(/\\/(apply|application)\\/?$/i, \"\")\n      .replace(/\\/$/, \"\");\n\n    return {\n      json: {\n        link: rawUrl,\n        url: cleanUrl,\n        source: sourceName\n      }\n    };\n  })\n  .filter(item => {\n    const uniqueKey = item.json.url.toLowerCase();\n\n    if (seenJobs.has(uniqueKey)) {\n      return false;\n    }\n\n    seenJobs.add(uniqueKey);\n    return true;\n  });"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1072,
+        16
+      ],
+      "id": "2cfacff4-ac51-4ccf-98cd-e01900529960",
+      "name": "Remove application, apply"
+    },
+    {
+      "parameters": {
+        "jsCode": "const newJobs = $input.all();\nconst excelRows = $('Get Rows to check jobs').all();\n\nfunction normalizeUrl(value = \"\") {\n  return String(value)\n    .trim()\n    .toLowerCase()\n    .replace(/\\/+$/, \"\");\n}\n\nconst existingUrls = new Set();\n\n// Get all JOB URL values from Google Sheets rows\nfor (const row of excelRows) {\n  const sheetUrl = row.json[\"JOB URL\"] || \"\";\n  const normalized = normalizeUrl(sheetUrl);\n\n  if (normalized) {\n    existingUrls.add(normalized);\n  }\n}\n\n// Output only jobs whose job_url is NOT already in sheet\nconst output = [];\n\nfor (const item of newJobs) {\n  const jobUrl = item.json.job_url || \"\";\n  const normalized = normalizeUrl(jobUrl);\n\n  if (normalized && !existingUrls.has(normalized)) {\n    output.push({\n      json: item.json,\n    });\n  }\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        16
+      ],
+      "id": "e7a7399d-7859-4c2e-b2e4-44bd67c802ce",
+      "name": "New Jobs Map",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2640,
+        208
+      ],
+      "id": "aacc6be3-86be-485a-bd4c-458b6778cc06",
+      "name": "Loop Over JOB URL"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=###ROLE:\nYou are a Senior Technical Recruiter & Engineering Lead (Hiring Manager). Context: I am a software engineer applying for the {{ $json['Job Title'] }} position at {{ $json['Company Name'] }}. I need a persuasive, one-page cover letter that bridges my technical background with their specific mission.\n\n\n### MY FIXED HISTORY (DO NOT ALTER):\n- Name: \n- Professional Experience:\n    1. Title, Company Name (Date – Date)\n    2. Title, Company Name (Date – Date)\n- Education: \n    - Degree in Specialization, University (GPA, Scholarship)\n    - Degree in Specialization, University (GPA, Scholarship)\n\n\n###DATA INPUTS:\n- Big Six Skills: <skills>\nBig Six Skill 1 :{{ $json['Big Six Skill 1'] }}\nBig Six Skill 2 :{{ $json['Big Six Skill 2'] }}\nBig Six Skill 3 :{{ $json['Big Six Skill 3'] }}\nBig Six Skill 4 :{{ $json['Big Six Skill 4'] }}\nBig Six Skill 5 :{{ $json['Big Six Skill 5'] }}\nBig Six Skill 6 :{{ $json['Big Six Skill 6'] }}</skills>\n- Extracted Matching Language and Buzzwords: <culture>{{ $json['Matching Language Bullets'] }}{{ $json.Buzzwords }}</culture>\n- Barrier Mitigation Strategy: <barrier>\nCommon Application Barriers  \n• What the hiring manager is thinking: This person may want to change jobs, but they have  no experience in this function. If I bring them in for an interview, I’m going to look like a  fool and they might not succeed in the role. \n• How to address this: Show that you’re serious about making the change to this new  function. Highlight courses and side projects that show your commitment to this new  skill set. Assure the hiring manager that the organization will be making a good decision  by investing in you. \nYou Weren’t at Your Last Position for Very Long \n• What the hiring manager is thinking: Is this person a job hopper? Why would they commit  to working at a job they didn’t like? Was there something wrong with their performance?  Should this be a red flag? \n• How to address this: Firstly, don’t say anything negative about your previous employer in  your cover letter. Instead, appeal to the hiring manager’s sense of understanding that  sometimes, the fit between employer and employee just isn’t there. If you had to take the  job because of financial hardship or for another reason, tell them that you were in a tough  place in your life financially and that now, you’re committed to finding the right LONG TERM fit. \nYou’ve Moved Jobs Frequently \n• What the hiring manager is thinking: If this candidate is constantly moving jobs, how can I  expect them to come to this organization and stay? \n• How to address this: First, if any of those short stays were designed to be short from the  beginning, like an internship, a temp job, or a position on contract, make sure that your  resume shows that by noting “internship” etc. next to your job title. If you really have left  positions frequently over the past few years, first assure the hiring manager that you are  looking for somewhere that you can stay for the longer term. Let them know that you’ve \nlearned a lot about organizations and/or different job functions and that you now know  much more about the kind of environment where you can succeed. \nYou Don’t Have Much Work Experience \n• What the hiring manager is thinking: If I can get someone with experience for the same  price, why would I hire someone without experience? Then, we’ll have to train them and  teach them about the world of work. \n• How to address this: If you’re a recent graduate, remind the hiring manager that you’re  fresh out of school and that you have received fantastic training. For example, you might  say “I’ve been so fortunate to receive an excellent education at...” Also, show that you’re  someone who wants to learn inside a great organization by saying something like, “most  people would characterize me as someone who is a quick learner, and I’m especially  interested in joining an organization where I can quickly onboard and make a positive  impact with the team around me.” \nYou Have Gaps in Your Employment History \n• What the hiring manager is thinking: You’ve been out of the labor market for some time  and you’re not mentally and emotionally prepared to join their high performance  organization. \n• How to address this: First, address the obvious. You might do this by saying “you might  have notice that between ... and ... my resume doesn’t show any professional  engagement.” Then, provide some context about the employment gap. Don’t give away  anything inappropriate. For example, never say something like “my family was falling  apart because my partner cheated on me.” Instead, say something like “I took a personal  leave to help my family make an important transition.” Then, assure the reader that you  have been working on your skills. Describe classes, volunteerism, and relevant projects  that you’ve worked on. Let them know that you’re ready to take the next step in your life. \nYou Don’t Have Experience with a Required Software \n• What the hiring manager is thinking: We’re going to have to train this person on the  software ourselves and it’s going to slow things down. \nHow to address this: Try to address these concerns in your cover letter by taking tutorials  or classes on the software package and then talking about it in your letter. Also, assure the hiring manager that you’re committed to finding a great long-term fit and that, if the  organization will invest in you, it will be worth their time. \nYou’re Currently Unemployed \n• What the hiring manager is thinking: Why hasn’t anyone hired you yet? • How to address this: First, personally appeal to the hiring manager by saying something  like “as you know, finding the right match between employer and employee often takes  time.” Then, let them know that you are working hard to find the right fit because you  want to be able to make a long-term commitment to an organization. Then, assure the  reader that you have been working on your skills. Describe classes, volunteerism, and  relevant projects that you’ve worked on. Let them know that you’re ready to take the  next step in your life. \nYou’re Planning to Move or are a Long Distance Candidate  • What the hiring manager is thinking: It’s easy to dream about taking a job in some far  away place or that, if you’re moving to the area for a personal reason (like a relationship  or a friend), it’s easy to call it quits and move back home. \n• How to address this: Reassure the hiring team that you’re serious about moving to their  specific place. The message that you’ll move “anywhere” usually isn’t nearly as powerful  as saying that you’re doing everything to move somewhere in particular—where the  target organization is located. You can prove this by talking about the time you’ve spent  researching housing and other moving concerns. \nYou’re Looking to Change Industries \n• What the hiring manager is thinking: You might want to move industries, but what does  that matter to me? I need to make sure that I can get someone qualified into this position. • How to address this: Show the recruiting team that you’re serious about changing  industries by letting them know that you’re learning the relevant softwares, reading  about the industry, and that this move is an important part of your career plan. \nYou’re Moving to a Smaller or Larger Organization \n• What the hiring manager is thinking: This person has been working in a situation where  the scope of their work will be very different than in this organization. If they’re coming  from a smaller organization to a bigger one, the scope of their responsibilities is likely to be much smaller and they might get bored. If they’re moving from a much larger  organization to a smaller one, they might not be able to handle the lack of structure in the  smaller organization.  \n• How to address this: If you’re moving from a smaller organization to a bigger one, write in  your letter that you’re interested in joining an organization with more resources, structure,  and reach. If you’re moving from a larger organization to a smaller one, write in your letter  than you’re looking to work somewhere where it is easier to bring ideas to the team and  \nto get exposure to a broader set of job functions.\nThis Job Would be a Promotion for You \n• What the hiring manager is thinking: Why didn’t this person get promoted into a higher  role at their previous organization. Also, are they only in it for themselves? Will they move  organizations again if they have a chance to move up the ladder? \n• How to address this: Firstly, make sure that you speak positively about your previous  organization, but then transition to a description of the situation. Highlight that you want  a chance to take on more responsibility and let the hiring manager know that you were  prepared to take on new challenges before there was space for you at the next rung of  the organization. Also, make sure to speak in terms of “we” to assure the hiring manager  that you’re not a selfish person. Speak well of your team and include phrases like “shared  success” and “when everyone succeeds…” \nYou’re Overqualified for the Position \n• What the hiring manager is thinking: This person is just looking for a short-term job fix.  When a better opportunity comes along, this candidate is just going to get up and leave  this organization. \n• How to address this: First, address this is a way that doesn’t come off as arrogant. You  might say something like “from my resume, you might notice that I have quite a bit of  experience in this area.” Then, assure the hiring manager that you’re not looking for a  \nshort-term job fix and that you realize that careers are made by finding a great  organizational fit—not by being selfish about your level in the organization. Then, describe  how you see this position fitting into your longer-term career goals.\n</barrier>\n\n###Task: Write a cover letter following these specific guidelines:\n\n- Direct Connection & Motivation: Open by referencing a specific aspect of the <jd> that excites you. Use the <culture> to demonstrate that you share their mission-driven mindset and culture.\n\n- Speak Directly to Their Needs: Use the <jd> as the roadmap. Mirror the <culture> found in the posting to describe your past work. If the JD asks for a specific environment, describe your experience using those exact terms.\n\n- Showcase Unique Fit: Connect your <skill1>, <skill2>, and <skill3> directly to the requirements in the <jd>. Explain how these skills solve a specific problem mentioned in the job post.\n\n- Proactive Narrative & Barrier Mitigation: Use the cover letter to provide context that the resume cannot. Referencing the <barrier>, proactively frame any potential application barriers (like career gaps, tenure, or transitions) using the \"How to address this\" strategies provided in the document. Combine this with <skill5> and <skill6> to show how your personal growth makes you a high-value, transparent hire.\n\n- Tone & Format: Keep it under 350 words. The tone should be \"the smartest person in the room who is also fun to grab a coffee with.\"Be a people person: approachable, grounded, and charismatic. Strictly avoid being needy/desperate or dominating/arrogant.\n\n###OUTPUT\nOutput Format: Please provide the response in the following structure, using only the headings provided. DO NOT provide salution in SECTION 4:\n\nSubject: \"subject\"\n\nSection 1: \"subject1\"\n\nSection 2: \"subject2\"\n\nSection 3: \"subject3\"\n\nSection 4: \"subject4\" \n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        3696,
+        304
+      ],
+      "id": "3716e891-9923-4d47-8ed8-dec787fefef5",
+      "name": "Cover Letter"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### ROLE:\nSenior Technical Recruiter & Engineering Lead (Hiring Manager).\n\n### DATA INPUTS:\n- Extracted Big Six Skills: \n<skills>\nBig Six Skill 1 :{{ $json['Big Six Skill 1'] }}\nBig Six Skill 2 :{{ $json['Big Six Skill 2'] }}\nBig Six Skill 3 :{{ $json['Big Six Skill 3'] }}\nBig Six Skill 4 :{{ $json['Big Six Skill 4'] }}\nBig Six Skill 5 :{{ $json['Big Six Skill 5'] }}\nBig Six Skill 6 :{{ $json['Big Six Skill 6'] }}</skills>\n- Extracted Matching Language and Buzzwords: <culture>{{ $json['Matching Language Bullets'] }}{{ $json.Buzzwords }}</culture>\n\n### FIXED \"COMPANY 1 NAME\" COMPANY OVERVIEW FOR TASK2 (\"COMPANY 1 NAME\"):\n- Organization: \"\" | Industry: \"\" | Size: \"\"| Revenue: \"\" | Recognizable Partners:\n### FIXED \"COMPANY 2 NAME\" COMPANY OVERVIEW FOR TASK3 (\"COMPANY 2 NAME\"):\n- Organization: \"\" | Industry: \"\" | Size: \"\" | Revenue: \"\" | Recognizable Partners: \n\n### MY FIXED HISTORY (DO NOT ALTER):\n- Name: \n- Professional Experience:\n    1. Title, Company Name (Date – Date)\n    2. Title, Company Name (Date – Date)\n- Education: \n    - Degree in Specialization, University (GPA, Scholarship)\n    - Degree in Specialization, University (GPA, Scholarship)\n\n### TECHNICAL ARSENAL:\n<arsenal>\n  <frontend>React, Next.js 15, Next.js 14, Angular, Vue.js, TypeScript, JavaScript, Tailwind CSS, Redux, HTML5, CSS3, Chart.js, Zod</frontend>\n  <backend>Node.js, Java, Spring Boot, Python, Express, Go, Apache, Vercel</backend>\n  <database>PostgreSQL, MongoDB, MSSQL, MySQL, Supabase, Firebase, Prisma, NoSQL, Appwrite, Data Modeling</database>\n  <infrastructure>GCP, Azure, Docker, Kubernetes, Kafka, CI/CD, GitHub Actions, Git</infrastructure>\n  <api_and_security>REST, GraphQL, OpenAI API, Plaid API, Stripe SDK, Apollo, Datadog, Sentry, Cursor, Claude, Codex, Agile, SDLC, Design Patterns, Testing, Microservices, APIs</api_and_security>\n</arsenal>\n\n### TASK1(SUMMARY):\nWrite a high-impact, 3-sentence Professional Summary. Use my \"Fixed History\" to establish seniority and my \"Big Six\" to establish technical fit.\n- RULES:\n  - SENTENCE 1: Lead with \"Software Engineer.\" Incorporate Top 2 highest impact phrases from Matching Language section of <culture>, but GROUND them strictly within the Software Engineering domain—specifically focusing on Full-Stack, Backend, Frontend, Cloud, and Distributed Systems. Translate any industry-specific jargon from <culture> into these specific technical pillars.\n  - SENTENCE 2: Demonstrate technical authority by weaving ALL SIX skills from <skills> into a narrative. Ground these skills by selecting the most relevant tools from the <arsenal> tags. Do NOT use any language from <culture> in this sentence. Frame these as the core toolkit used to deliver results across your tenure at COMPANY NAME 1 and COMPANY NAME 2.\n  - SENTENCE 3: Demonstrate cultural alignment using top 2 \"Buzzwords\" from <culture>. Link these to the analytical rigor of your degrees and scholarship history to prove a \"first-principles\" intellectual fit.\n  - TONE: High Signal-to-Noise. Use active senior verbs. No fluff.\n  - OUTPUT:\n    - Output ONLY the final refined summary as SUMMARY : summary\n    - Do not include your reasoning steps or any preamble/post-text.\n    - Accuracy and technical depth are the highest priorities.\n    - Do not use any asterisks, hyphens, or double quotes.\n    - Do not use bolding, italics, or any markdown styling.\n\n \n### TASK2(COMPANY NAME 1):\n- ORGANIZATION DESCRIPTION: Generate a one-sentence description between 150 characters to 180 characters for COMPANY NAME 1. You MUST include the employee count, the revenue , and at least four recognizable partners.\n- ROLE DESCRIPTION: Generate a one-sentence description between 150 characters to 180 characters. Synthesize the 4th skill from the list.\n- SUGGESTED BULLETPOINTS: Generate exactly 3 bulletpoints. Select the 1st, 2nd, and 3rd skills from <skills> in their exact provided order. \n  - XYZ FORMULA: Accomplished X (result) as measured by Y (metric) by doing Z (implementation using <arsenal>).\n    - The three bullet points MUST collectively and explicitly include the following fixed performance metrics:\n      - \n      - \n      - \n      - Each metric must appear exactly once across the three bullet points.\n      - The metrics must appear in separate bullet points and must not be combined within a single bullet point.\n      - Do NOT invent new percentage values.\n      - Do NOT modify these numbers.\n      - These metrics must be used as the “Y” in the XYZ formula.\n      - The implementation details (Z) may change per job tailoring, but the metrics must remain constant.\n      - TECHNICAL FILTER: Ground all \"Z\" actions (from the XYZ formula) strictly in the <arsenal>. Written as an engineer with YEARS years of experience.\n      - Logical Continuity: These bullet points must serve as specific, quantified evidence of the responsibilities mentioned in your Role Description.\n      - LENGTH CONSTRAINT: Each bullet point must be between 240 characters to 270 characters. Be detailed about the technical implementation (Z) to meet this length.\n- OUTPUT FORMATTING (MANDATORY):\nTASK 2 COMPANY DESCRIPTION : Organization Description\nTASK 2 ROLE DESCRIPTION : Role Description\nTASK 2 SKILL 1 POINT : XYZ Bulletpoint\nTASK 2 SKILL 2 POINT : XYZ Bulletpoint\nTASK 2 SKILL 3 POINT : XYZ Bulletpoint\nDO NOT use any asterisks, hyphens, or double quotes.\nDO NOT use bolding, italics, or markdown styling.\nOutput ONLY the final text. No preamble.\n\n### TASK3(COMPANY NAME 2):\n- ORGANIZATION DESCRIPTION: Generate a one-sentence description between 150 characters to 180 characters for COMPANY NAME 2. You MUST include the employee count, the revenue, and at least four recognizable partners.\n- ROLE DESCRIPTION: Generate a one-sentence description between 150 characters to 180 characters. Synthesize the 4th skill from the list.\n- SUGGESTED BULLETPOINTS: Generate exactly 3 bulletpoints. Select the 1st, 2nd, and 3rd skills from <skills> in their exact provided order. \n  - XYZ FORMULA: Accomplished X (result) as measured by Y (metric) by doing Z (implementation using <arsenal>). No fluff just content\n    - The three bullet points MUST collectively and explicitly include the following fixed performance metrics:\n      - \n      - \n      - \n      - Each metric must appear exactly once across the three bullet points.\n      - The metrics must appear in separate bullet points and must not be combined within a single bullet point.\n      - Do NOT invent new percentage values.\n      - Do NOT modify these numbers.\n      - These metrics must be used as the “Y” in the XYZ formula.\n      - The implementation details (Z) may change per job tailoring, but the metrics must remain constant.\n      - TECHNICAL FILTER: Ground all \"Z\" actions (from the XYZ formula) strictly in the <arsenal>. Written as an engineer with YEARS years of experience.\n      - Logical Continuity: These bullet points must serve as specific, quantified evidence of the responsibilities mentioned in your Role Description.\n      - LENGTH CONSTRAINT: Each bullet point must be between 240 characters to 270 characters. Be detailed about the technical implementation (Z) to meet this length.\n- OUTPUT FORMATTING (MANDATORY):\nTASK 3 COMPANY DESCRIPTION : Organization Description\nTASK 3 ROLE DESCRIPTION : Role Description\nTASK 3 SKILL 1 POINT : XYZ Bulletpoint\nTASK 3 SKILL 2 POINT : XYZ Bulletpoint\nTASK 3 SKILL 3 POINT : XYZ Bulletpoint\nDO NOT use any asterisks, hyphens, or double quotes.\nDO NOT use bolding, italics, or markdown styling.\nOutput ONLY the final text. No preamble.\n\n### TASK4 (TECH SKILLS):\n- Extract the most important technical requirements from the <arsenal> not in <skills>.\n- Group related technologies together to show depth.\n- Make 6 clusters that are unique and cover different domains (e.g., Backend, Cloud, Frontend, Database).\n- OUTPUT RULES:\n  - Output exactly 6 lines.\n  - No \"Skill name:\" labels.\n  - No bullet points, no preamble, no markdown.\n  - Each line should be 1-4 words or a cluster of tech separated by \"&\".\n  - OUTPUT FORMAT:\n    TASK 4 SKILL 1 : Skill Cluster 1\n    TASK 4 SKILL 2 : Skill Cluster 2\n    TASK 4 SKILL 3 : Skill Cluster 3\n    TASK 4 SKILL 4 : Skill Cluster 4\n    TASK 4 SKILL 5 : Skill Cluster 5\n    TASK 4 SKILL 6 : Skill Cluster 6\n\n### TASK5 (SOFT SKILLS):\n- Extract the most important soft skill requirements from the <culture>.\n- Group related soft skills together to show depth.\n- Make 6 clusters that are unique and cover different domains.\n- OUTPUT RULES:\n  - Output exactly 6 lines.\n  - No \"Skill name:\" labels.\n  - No bullet points, no preamble, no markdown.\n  - Each line should be 1-4 words or a cluster of tech separated by \"&\".\n  - OUTPUT FORMAT:\n    TASK 5 SKILL 1 : Skill Cluster 1\n    TASK 5 SKILL 2 : Skill Cluster 2\n    TASK 5 SKILL 3 : Skill Cluster 3\n    TASK 5 SKILL 4 : Skill Cluster 4\n    TASK 5 SKILL 5 : Skill Cluster 5\n    TASK 5 SKILL 6 : Skill Cluster 6\n\n\n"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        3696,
+        112
+      ],
+      "id": "f4179ffa-ef5b-4b0c-9396-d06d248a086a",
+      "name": "Resume"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Input shape:\n// [\n//   {\n//     output: [\n//       {\n//         content: [\n//           { text: \"SUMMARY : ...\\n\\nTASK 2 COMPANY DESCRIPTION : ...\" }\n//         ]\n//       }\n//     ]\n//   }\n// ]\n\nconst results = [];\n\nfor (const item of items) {\n  const text =\n    item.json?.output?.[0]?.content?.find(c => c.type === 'output_text')?.text ||\n    item.json?.output?.[0]?.content?.[0]?.text ||\n    '';\n\n  const lines = text\n    .split('\\n')\n    .map(line => line.trim())\n    .filter(line => line.length > 0);\n\n  const parsed = {};\n\n  for (const line of lines) {\n    const match = line.match(/^(.+?)\\s*:\\s*(.*)$/);\n    if (match) {\n      const key = match[1].trim();\n      const value = match[2].trim();\n      parsed[key] = value;\n    }\n  }\n\n  results.push({\n    json: {\n      summary: parsed['SUMMARY'] || '',\n      task2CompanyDescription: parsed['TASK 2 COMPANY DESCRIPTION'] || '',\n      task2RoleDescription: parsed['TASK 2 ROLE DESCRIPTION'] || '',\n      task2Skill1Point: parsed['TASK 2 SKILL 1 POINT'] || '',\n      task2Skill2Point: parsed['TASK 2 SKILL 2 POINT'] || '',\n      task2Skill3Point: parsed['TASK 2 SKILL 3 POINT'] || '',\n      task3CompanyDescription: parsed['TASK 3 COMPANY DESCRIPTION'] || '',\n      task3RoleDescription: parsed['TASK 3 ROLE DESCRIPTION'] || '',\n      task3Skill1Point: parsed['TASK 3 SKILL 1 POINT'] || '',\n      task3Skill2Point: parsed['TASK 3 SKILL 2 POINT'] || '',\n      task3Skill3Point: parsed['TASK 3 SKILL 3 POINT'] || '',\n      task4Skill1: parsed['TASK 4 SKILL 1'] || '',\n      task4Skill2: parsed['TASK 4 SKILL 2'] || '',\n      task4Skill3: parsed['TASK 4 SKILL 3'] || '',\n      task4Skill4: parsed['TASK 4 SKILL 4'] || '',\n      task4Skill5: parsed['TASK 4 SKILL 5'] || '',\n      task4Skill6: parsed['TASK 4 SKILL 6'] || '',\n      task5Skill1: parsed['TASK 5 SKILL 1'] || '',\n      task5Skill2: parsed['TASK 5 SKILL 2'] || '',\n      task5Skill3: parsed['TASK 5 SKILL 3'] || '',\n      task5Skill4: parsed['TASK 5 SKILL 4'] || '',\n      task5Skill5: parsed['TASK 5 SKILL 5'] || '',\n      task5Skill6: parsed['TASK 5 SKILL 6'] || '',\n    }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4000,
+        112
+      ],
+      "id": "2e679313-8e29-4949-816e-edeb48e74f92",
+      "name": "Resume Map"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "TAG_SUMMARY",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.summary }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_1",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 1'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_2",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 2'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_3",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 3'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_4",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 4'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_5",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 5'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SKILL_6",
+              "replaceText": "={{ $('Big Six Skills Map').item.json['Big Six Skill 6'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_ORGANIZATION_DESCRIPTION_1",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task2CompanyDescription }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_ROLE_DESCRIPTION_1",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task2RoleDescription }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_A",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task2Skill1Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_B",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task2Skill2Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_C",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task2Skill3Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_ORGANIZATION_DESCRIPTION_2",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task3CompanyDescription }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_ROLE_DESCRIPTION_2",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task3RoleDescription }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_D",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task3Skill1Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_E",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task3Skill2Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_DESCRIPTION_FOR_SKILL_F",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task3Skill3Point }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_1",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill1 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_2",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill2 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_3",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill3 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_4",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill4 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_5",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill5 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": " TAG_TECH_SKILL_6",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task4Skill6 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_1",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill1 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_2",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill2 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_3",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill3 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_4",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill4 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_5",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill5 }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "TAG_SOFT_SKILL_6",
+              "replaceText": "={{ $('Resume Map').all().slice(-1)[0].json.task5Skill6 }}",
+              "matchCase": true
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        5056,
+        112
+      ],
+      "id": "4c3aa5b3-ec49-4043-a18c-8d44dc4d55ce",
+      "name": "Updated Resume"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "replaceAll",
+              "text": "SECTION_0",
+              "replaceText": "={{ $('Cover Letter Map').item.json.Subject }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "SECTION_A",
+              "replaceText": "={{ $('Cover Letter Map').item.json['Section 1'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "SECTION_B",
+              "replaceText": "={{ $('Cover Letter Map').item.json['Section 2'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "SECTION_C",
+              "replaceText": "={{ $('Cover Letter Map').item.json['Section 3'] }}",
+              "matchCase": true
+            },
+            {
+              "action": "replaceAll",
+              "text": "SECTION_D",
+              "replaceText": "={{ $('Cover Letter Map').item.json['Section 4'] }}",
+              "matchCase": true
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        4368,
+        304
+      ],
+      "id": "504290da-29fb-45dc-abbf-8fdccbaa1054",
+      "name": "Updated Cover Letter"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=node /home/node/scripts/fetch.js \"{{ $json['JOB URL'] }}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        2816,
+        208
+      ],
+      "id": "ec432203-0716-4cce-89cd-1d04aa05ac01",
+      "name": "Job Description HTML"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5824,
+        208
+      ],
+      "id": "1c0fad71-ee43-452f-97b6-742caf2b2f02",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1952,
+        192
+      ],
+      "id": "4978410a-425e-42d9-aac3-dcf557cb5f09",
+      "name": "Merge Jobs"
+    },
+    {
+      "parameters": {
+        "content": "# ATLAS SEARCH AND CREATION\n## JOB SEARCH\n## RESUME\n## COVER LETTER\n",
+        "height": 624,
+        "width": 6116,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        -80
+      ],
+      "typeVersion": 1,
+      "id": "8921eeab-95d6-4e75-8f2d-520de6338f1e",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "000e32fa-5944-4713-8e5b-a2d27b8cc3dc",
+              "leftValue": "={{ $json['RECRUITER EMAIL'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "8dd19d14-7d23-4c53-a752-c8ef4a46c3a2",
+              "leftValue": "={{ $json['HIRING MANAGER EMAIL'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        784,
+        752
+      ],
+      "id": "e635df1d-60b8-4fba-87dd-405a518b050b",
+      "name": "Check If Email Available"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.RESUME }}",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1184,
+        752
+      ],
+      "id": "39102c40-a66f-4f9e-ba76-bfc4e53b4b3d",
+      "name": "Download Resume For Email"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        1376,
+        752
+      ],
+      "id": "4edf6c5c-6d08-4351-8b28-8974d87256c5",
+      "name": "Resume as Text For Email"
+    },
+    {
+      "parameters": {
+        "jsCode": "const returnItems = [];\n\nfor (const item of $input.all()) {\n  // 1. Retrieve the inputs. \n  // Update 'resumeText' to whatever field holds your resume in the previous node.\n  const resumeText = $input.item.json.text || item.json.text || \"\"; \n  \n  // 2. Define the skills (reads from input if available, otherwise uses your defaults)\n  const skill1 = $('Get Rows For Emails').all()[$('Download Resume For Email').item.json.row_number-2].json['BIG SIX SKILL 1'];\n  const skill2 = $('Get Rows For Emails').all()[$('Download Resume For Email').item.json.row_number-2].json['BIG SIX SKILL 2'];\n\n  const lines = resumeText.split('\\n');\n  const extractedBullets = [];\n  \n  let currentSkill = null;\n  let currentText = [];\n\n  for (let i = 0; i < lines.length; i++) {\n    let line = lines[i].trim();\n    if (!line) continue;\n\n    // Check if the current line starts a new bullet point\n    if (line.startsWith('●')) {\n      \n      // If we were already capturing a previous skill, save it before moving on\n      if (currentSkill && currentText.length > 0) {\n        extractedBullets.push({\n          skill: currentSkill,\n          rawBullet: currentText.join(' '),\n          // This strips the \"● Skill Name:\" prefix so you just get the achievement text\n          cleanText: currentText.join(' ').replace(/^●\\s*.*?:/, '').trim()\n        });\n        currentSkill = null;\n        currentText = [];\n      }\n\n      // Check if this new bullet matches Skill 1 or Skill 2\n      if (line.includes(skill1)) {\n        currentSkill = skill1;\n        currentText.push(line);\n      } else if (line.includes(skill2)) {\n        currentSkill = skill2;\n        currentText.push(line);\n      }\n      \n    } else {\n      // If it's NOT a bullet point, but we are currently capturing a skill...\n      if (currentSkill) {\n        \n        // Safety Check: Stop capturing if the line is an all-caps section header or company name\n        // (e.g., \"UNISYS INFOTECH\") to prevent bleeding into the next job.\n        if (/^[A-Z0-9\\s\\-,]+$/.test(line) && !/[a-z]/.test(line)) {\n          extractedBullets.push({\n            skill: currentSkill,\n            rawBullet: currentText.join(' '),\n            cleanText: currentText.join(' ').replace(/^●\\s*.*?:/, '').trim()\n          });\n          currentSkill = null;\n          currentText = [];\n        } else {\n          // It's a standard continuation of the bullet point onto the next line\n          currentText.push(line);\n        }\n      }\n    }\n  }\n\n  // Catch the very last bullet point if the resume ended while we were capturing\n  if (currentSkill && currentText.length > 0) {\n    extractedBullets.push({\n      skill: currentSkill,\n      rawBullet: currentText.join(' '),\n      cleanText: currentText.join(' ').replace(/^●\\s*.*?:/, '').trim()\n    });\n  }\n\n  // 3. Attach the extracted data to the output\n  returnItems.push({\n    json: {\n      ...item.json,\n      skill1,\n      skill2,\n      extractedBullets: extractedBullets\n    }\n  });\n}\n\nreturn returnItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        752
+      ],
+      "id": "01d09dd8-ce66-4439-a76a-5b2d3acd4398",
+      "name": "Bullet Points Map"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f6e3ed8-bd27-4ce7-aa66-81c9b94c4534",
+              "leftValue": "={{ $('Loop Over Emails').item.json['RECRUITER EMAIL'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "c5e0dea0-4b7c-4047-bd53-f751659d52d4",
+              "leftValue": "={{ $('Loop Over Emails').item.json['RECRUITER EMAIL STATUS'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2272,
+        656
+      ],
+      "id": "f2ca2566-53c8-4234-9210-c796fcf96c91",
+      "name": "If Recruiter Email"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Loop Over Emails').item.json['RECRUITER EMAIL'] }}",
+        "subject": "={{ $json.subject }}",
+        "message": "=Greetings,\n<br>\n<br>\n{{ $json['bodyIntro'] }}\n<ul>\n  <li><b>{{ $('Loop Over Emails').item.json['BIG SIX SKILL 1'] }}</b>: {{ $json.skill1 }}</li>\n  <li><b>{{ $('Loop Over Emails').item.json['BIG SIX SKILL 2'] }}</b>: {{ $json.skill2 }}</li>\n</ul>\n{{ $json['bodyExtro'] }}\n<br>\n{{ $json['resumeIntro'] }}\n<b><a href=\"{{ $('Loop Over Emails').item.json.RESUME }}\">NAME Resume</a></b>\n<br>\n<br>\nBest regards,\n<br>\nNAME",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2464,
+        656
+      ],
+      "id": "9e77dc9f-41ae-498a-874f-57e2e8667022",
+      "name": "Recruiter Email",
+      "webhookId": "97d50a23-5f86-4680-8774-55b13901a7fc",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1f6e3ed8-bd27-4ce7-aa66-81c9b94c4534",
+              "leftValue": "={{ $('Loop Over Emails').item.json['HIRING MANAGER EMAIL'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "fd9913e8-b25e-40ac-88cf-66cac04e9f0a",
+              "leftValue": "={{ $('Loop Over Emails').item.json['HIRING MANAGER EMAIL STATUS'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2272,
+        848
+      ],
+      "id": "c3720d63-ad50-440b-ab25-748188ebd0a9",
+      "name": "If Hiring Manager Email"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Loop Over Emails').item.json['HIRING MANAGER EMAIL'] }}",
+        "subject": "={{ $json.subject }}",
+        "message": "=Greetings,\n<br>\n<br>\n{{ $json['bodyIntro'] }}\n<ul>\n  <li><b>{{ $('Loop Over Emails').item.json['BIG SIX SKILL 1'] }}</b>: {{ $json.skill1 }}</li>\n  <li><b>{{ $('Loop Over Emails').item.json['BIG SIX SKILL 2'] }}</b>: {{ $json.skill2 }}</li>\n</ul>\n{{ $json['bodyExtro'] }}\n<br>\n{{ $json['resumeIntro'] }}\n<b><a href=\"{{ $('Loop Over Emails').item.json.RESUME }}\">NAME Resume</a></b>\n<br>\n<br>\nBest regards,\n<br>\nNAME",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        2464,
+        848
+      ],
+      "id": "e8f6089a-f5b2-4470-b07b-6279fc7a2dd8",
+      "name": "Hiring Manager Email",
+      "webhookId": "4b55506f-cb14-4559-a0ba-80187b24fea1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3440,
+        752
+      ],
+      "id": "62304c99-747b-44e9-94f0-de6b12ffd64b",
+      "name": "Loop Over JOB URLs To Apply"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=export DISPLAY=:99; export NODE_PATH=$(npm root -g); node /home/node/scripts/apply.js '{{ JSON.stringify({ jobUrl: $json.jobUrl, resume_text: $json.resume_text,coverletter_text:$json.coverletter_text, ResumePath: $(\"Write Resume to scripts\").first().json.fileName, CoverLetterPath: $(\"Write Cover Letter to scripts\").first().json.fileName, profile: $json.profile }).replace(/'/g, \"'\\\\''\") }}'"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        4528,
+        752
+      ],
+      "id": "ba8c791d-5334-4c81-9e7a-05e21f636182",
+      "name": "Job Application",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        976,
+        752
+      ],
+      "id": "b33b7d18-3493-49fc-a1d3-386021c0d1e0",
+      "name": "Loop Over Emails"
+    },
+    {
+      "parameters": {
+        "content": "# ATLAS EMAIL SENDER\n",
+        "height": 656,
+        "width": 2868,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        112,
+        544
+      ],
+      "typeVersion": 1,
+      "id": "0239c954-8841-41ce-9978-611cc8827d49",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        3792,
+        1040
+      ],
+      "id": "ccb2a85f-73af-45dd-8af7-a009eea33d57",
+      "name": "Cover Letter as Text"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3968,
+        672
+      ],
+      "id": "60bfedbb-bcad-47cd-bd84-3fc4cbdd2dd8",
+      "name": "Write And Save Resume"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        3968,
+        880
+      ],
+      "id": "a3963486-f29f-4402-a04c-9598879f99c5",
+      "name": "Write And Save Cover Letter"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Define your Base Search URLs\nconst baseUrls = [  \"https://builtin.com/jobs/remote/hybrid/office/entry-level/junior/mid-level?search=Junior+Software+Engineer&daysSinceUpdated=1&country=USA&allLocations=true\", \"https://builtin.com/jobs/remote/hybrid/office/entry-level/junior/mid-level?search=Software+Engineer&daysSinceUpdated=1&country=USA&allLocations=true\",\"https://builtin.com/jobs/entry-level/junior/mid-level?search=Full-Stack+Engineer&daysSinceUpdated=1&country=USA&allLocations=true\",\"https://builtin.com/jobs/remote/hybrid/office/entry-level/junior/mid-level?search=Front-End+Engineer&daysSinceUpdated=1&country=USA&allLocations=true\"\n];\n\nconst allPages = [];\nconst maxPages = 5;\n\n// 2. Loop through each URL and create paginated URLs\nfor (const url of baseUrls) {\n  const cleanUrl = url.split(\"&page=\")[0];\n\n  for (let page = 1; page <= maxPages; page++) {\n    allPages.push({\n      json: {\n        url: `${cleanUrl}&page=${page}`,\n        page_number: page\n      }\n    });\n  }\n}\n\nreturn allPages;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        208
+      ],
+      "id": "2aa6ba5d-4617-44f5-b5b8-3d11db2a2a2e",
+      "name": "BuiltIn"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        208
+      ],
+      "id": "724e2988-4a31-480e-aa95-d9d64d2bc051",
+      "name": "HTTP Request for BuiltIn"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst output = [];\nconst seen = new Set();\n\nfunction decodeHtml(str = \"\") {\n  return String(str)\n    .replace(/&#x2F;/g, \"/\")\n    .replace(/&#x27;/g, \"'\")\n    .replace(/&#x2B;/g, \"+\")\n    .replace(/&amp;/g, \"&\")\n    .replace(/&quot;/g, '\"')\n    .replace(/&#39;/g, \"'\")\n    .replace(/&lt;/g, \"<\")\n    .replace(/&gt;/g, \">\")\n    .replace(/&nbsp;/g, \" \")\n    .trim();\n}\n\nfunction stripTags(str = \"\") {\n  return decodeHtml(str)\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, \" \")\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, \" \")\n    .replace(/<[^>]+>/g, \" \")\n    .replace(/\\s+/g, \" \")\n    .trim();\n}\n\nfunction pushResult(source, jobTitle, jobUrl, posted) {\n  if (!jobTitle || !jobUrl || !posted) return;\n\n  const key = `${source}|${jobTitle}|${jobUrl}|${posted}`;\n  if (seen.has(key)) return;\n\n  seen.add(key);\n\n  output.push({\n    json: {\n      source,\n      jobTitle,\n      jobUrl,\n      posted,\n    },\n  });\n}\n\nfunction withinTwoHours(posted = \"\") {\n  const p = posted.toLowerCase();\n\n  if (/\\ban hour ago\\b/i.test(p)) return true;\n\n  const match = p.match(/(\\d+)\\s+(minute|minutes|hour|hours)/);\n  if (!match) return false;\n\n  const value = parseInt(match[1], 10);\n  const unit = match[2];\n\n  if (unit.startsWith(\"minute\")) return true;\n  if (unit.startsWith(\"hour\") && value <= 2) return true;\n\n  return false;\n}\n\nfor (const item of items) {\n  const html = item.json.data || item.json.stdout || item.json.body || \"\";\n\n  if (!html || typeof html !== \"string\") continue;\n\n  // ==============================\n  // Built In\n  // ==============================\n  const builtInRegex =\n    /<a[^>]*href=\"(https:\\/\\/builtin\\.com\\/job\\/[^\"]+|\\/job\\/[^\"]+)\"[^>]*>([\\s\\S]*?)<\\/a>/gi;\n\n  let biMatch;\n\n  while ((biMatch = builtInRegex.exec(html)) !== null) {\n    const rawUrl = decodeHtml(biMatch[1]);\n\n    const jobUrl = rawUrl.startsWith(\"http\")\n      ? rawUrl\n      : `https://builtin.com${rawUrl}`;\n\n    const jobTitle = stripTags(biMatch[2]);\n\n    if (!jobTitle) continue;\n\n    const start = biMatch.index || 0;\n    const end = start + biMatch[0].length;\n\n    const localHtml = html.slice(end, end + 700);\n    const localText = stripTags(localHtml);\n\n    const timeMatch =\n      localText.match(/\\ban hour ago\\b/i) ||\n      localText.match(/\\b(?:about\\s+)?\\d+\\s+minutes?\\s+ago\\b/i) ||\n      localText.match(/\\b(?:about\\s+)?\\d+\\s+hours?\\s+ago\\b/i);\n\n    if (timeMatch && withinTwoHours(timeMatch[0])) {\n      pushResult(\"BuiltIn\", jobTitle, jobUrl, timeMatch[0]);\n    }\n  }\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        208
+      ],
+      "id": "fd685ad0-2d48-4d08-9e58-c5dd171d1061",
+      "name": "BuiltIn Jobs within last 2 Hours Map"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=export DISPLAY=:99; export NODE_PATH=$(npm root -g); node /home/node/scripts/builtin.js '{{ JSON.stringify({ \n  jobUrl: $json.jobUrl,\n  firstName: \"\",\n  lastName: \"\",\n  email: \"\"\n}).replace(/'/g, \"'\\\\''\") }}'"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        208
+      ],
+      "id": "a9461390-3e5d-4da4-8fbb-3da1ae015894",
+      "name": "BuiltIn Job Extraction",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map((item, index) => {\n  const stdout = item.json.stdout || \"\";\n\n  const match = stdout.match(/\\{[\\s\\S]*\"newTabUrl\"[\\s\\S]*\\}/);\n\n  let newJobUrl = \"\";\n  let errorMessage = \"\";\n\n  if (match) {\n    try {\n      const parsed = JSON.parse(match[0]);\n      newJobUrl = parsed.newTabUrl || \"\";\n      errorMessage = parsed.message || \"\";\n    } catch (e) {\n      errorMessage = e.message;\n    }\n  } else {\n    errorMessage = \"No JSON output found in stdout\";\n  }\n\n  const builtInJobData =\n    $(\"BuiltIn Jobs within last 2 Hours Map\").itemMatching(index).json || {};\n\n  return {\n    json: {\n      source: \"BuiltIn\",\n      jobTitle: builtInJobData.jobTitle || \"\",\n      originalJobUrl: builtInJobData.jobUrl || \"\",\n      posted: builtInJobData.posted || \"\",\n      newJobUrl,\n      errorMessage,\n    },\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1264,
+        208
+      ],
+      "id": "84fe46f4-f281-4049-b94c-d5562d576ef9",
+      "name": "Extract The New Job URLs"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=node /home/node/scripts/fetch.js \"{{ $json.newJobUrl }}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        208
+      ],
+      "id": "e459da76-c5b4-4ddc-b055-e7eff801e634",
+      "name": "BuiltIn HTML Extract"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. ADD 'html' AS A PARAMETER HERE\nfunction extractJobDetails(html) {\n  // Clean HTML to text with spaces (Used for Years and Visa)\n  const textContent = html.replace(/<[^>]*>/g, ' ').replace(/&nbsp;/g, ' ').replace(/[-_]/g, ' ');\n  const textLower = textContent.toLowerCase();\n\n  // 2. Years Extraction\n  const numberMap = { 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10 };\n\n  const expPattern = /(?:minimum|at least|preferred|have|experience|años de)?\\s*(?:\\b(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(?:\\s*(?:-|–|—|to)\\s*\\d{1,2})?\\s*(?:\\(\\d+\\))?\\s*\\+?)\\s*(?:\\+?|or more\\s*)?(?:years?|años)(?:\\s*(?:of\\s*)?(?:experience|proven|required|minimum|at least|preferred|años de))?/i;\n\n  const expMatch = textContent.match(expPattern);\n  let yearsNum = 0; \n  let yearsText = 'Not mentioned';\n\n  if (expMatch) {\n    const rawMatch = expMatch[1].toLowerCase();\n    yearsNum = numberMap[rawMatch] || parseInt(rawMatch);\n    yearsText = expMatch[0].trim();\n    if (yearsNum > 25) {\n      yearsNum = 0;\n      yearsText = 'Not mentioned';\n    }\n  } else if (textLower.includes(\"entry level\") || textLower.includes(\"junior\")) {\n    yearsText = \"Entry/Junior\";\n  }\n\n  // 3. Visa Status\n  const sponsorshipKeywords = [\"visa sponsorship is available\",\"will sponsor\",\"willing to sponsor\",\"sponsorship available\",\"h1b sponsorship\",\"h-1b sponsorship\"];\n  const restrictiveKeywords = [\"us citizen\",\"u.s. citizen\",\"u.s. citizenship\",\"green card\",\"clearance required\",\"no sponsorship\",\"will not sponsor\",\"not able to sponsor\",\"not provide sponsorship\"];\n  \n  let visaStatus = \"Uncertain\";\n  if (sponsorshipKeywords.some(kw => textLower.includes(kw))) {\n    visaStatus = \"Yes\";\n  } else if (restrictiveKeywords.some(kw => textLower.includes(kw))) {\n    visaStatus = \"Restrictive (Citizen/GC/Clearance)\";\n  }\n\n  // 4. UNIVERSAL LOCATION\n  const stateAbbr = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY', 'DC'];\n  const stateFull = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming', 'District of Columbia'];\n  const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville', 'Fort Worth', 'Columbus', 'San Francisco', 'Charlotte', 'Indianapolis', 'Seattle', 'Denver', 'Washington', 'Boston', 'Nashville', 'El Paso', 'Detroit', 'Portland', 'Las Vegas', 'Memphis', 'Louisville', 'Baltimore', 'Milwaukee', 'Albuquerque', 'Hartford', 'New Haven', 'Bridgeport'];\n\n  let locationSnippet = \"\";\n  const ldMatch = html.match(/<script[^>]*type=[\"']application\\/ld\\+json[\"'][^>]*>([\\s\\S]*?)<\\/script>/gi);\n  \n  if (ldMatch) {\n      ldMatch.forEach(block => {\n          const country = block.match(/\"addressCountry\"\\s*:\\s*\"([^\"]+)\"/i);\n          const region = block.match(/\"addressRegion\"\\s*:\\s*\"([^\"]+)\"/i);\n          const locality = block.match(/\"addressLocality\"\\s*:\\s*\"([^\"]+)\"/i);\n          locationSnippet += ` ${locality?.[1] || \"\"} ${region?.[1] || \"\"} ${country?.[1] || \"\"}`;\n      });\n  }\n\n  if (!locationSnippet.trim()) {\n      const meta = html.match(/<meta\\s+(?:name|property)=[\"'](?:og:description|description|og:url|og:title)[\"']\\s+content=[\"']([^\"']+)[\"']/gi);\n      if (meta) {\n        meta.forEach(m => {\n          const content = m.match(/content=[\"']([^\"']+)[\"']/i);\n          if (content) locationSnippet += \" \" + content[1];\n        });\n      }\n      const title = html.match(/<title>([\\s\\S]*?)<\\/title>/i);\n      if (title) locationSnippet += \" \" + title[1];\n  }\n\n  if (!locationSnippet.trim()) {\n      locationSnippet = html.substring(0, 4000);\n  }\n  \n  const cleanSnippet = locationSnippet.replace(/[\\/\\-_.,]/g, ' ');\n  const hasAbbr = stateAbbr.some(s => new RegExp(`\\\\b${s}\\\\b`).test(cleanSnippet));\n  const hasFullState = stateFull.some(s => new RegExp(`\\\\b${s}\\\\b`, 'i').test(cleanSnippet));\n  const hasCity = cities.some(c => new RegExp(`\\\\b${c}\\\\b`, 'i').test(cleanSnippet));\n  const hasCountry = /\\b(USA|U\\.S\\.A\\.|US|U\\.S\\.)\\b/.test(cleanSnippet) || /\\bUnited States( of America)?\\b/i.test(cleanSnippet);\n  const isUS = hasAbbr || hasFullState || hasCity || hasCountry;\n  return { yearsNum, yearsText, visaStatus, location: isUS ? \"USA\" : \"International\", isUS };\n}\n\n  const sourceMap = {\n  \"lever.co\": \"Lever\",\n  \"greenhouse.io\": \"Greenhouse\",\n  \"ashbyhq.com\": \"Ashby\",\n  \"wellfound.com\": \"Wellfound\",\n  \"workable.com\": \"Workable\",\n  \"myworkdayjobs.com\": \"Workday\",\n  \"smartrecruiters.com\": \"Smartrecruiters\",\n  \"rippling.com\": \"Rippling\",\n  \"breezy.hr\": \"Breezy\",\n  \"jazzhr.com\": \"Jazzhr\"\n  };\n\n  function getSourceFromUrl(url = \"\") {\n  const lowerUrl = String(url).toLowerCase();\n\n  for (const domain in sourceMap) {\n    if (lowerUrl.includes(domain)) {\n      return sourceMap[domain];\n    }\n  }\n\n  return \"Others\";\n  }\n\nreturn $input.all().map((item, index) => {\n  const htmlContent = item.json.stdout || item.json.html || \"\";\n  const extracted = extractJobDetails(htmlContent);\n  const originalData = $(\"Extract The New Job URLs\").itemMatching(index).json || {};\n  \n  const finalJobUrl = originalData.newJobUrl || \"N/A\";\n  return {\n    json: {\n      source: getSourceFromUrl(finalJobUrl),\n      job_title: originalData.jobTitle || \"N/A\",\n      job_url: originalData.newJobUrl || \"N/A\",\n      location: extracted.location,\n      years: extracted.yearsText,\n      visa_status: extracted.visaStatus,\n      _yearsNum: extracted.yearsNum,\n      _isUS: extracted.isUS\n    }\n  };\n}).filter(item => {\n  return item.json._isUS === true && item.json._yearsNum <= 3 && item.json.visa_status !== \"Restrictive (Citizen/GC/Clearance)\"; \n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1616,
+        208
+      ],
+      "id": "9ac2a89d-0bc1-44f6-b47c-b23f1417755f",
+      "name": "BuiltIn Map"
+    },
+    {
+      "parameters": {
+        "jsCode": "const newJobs = $input.all();\nconst excelRows = $('Get Rows to check jobs').all();\n\nfunction normalizeUrl(value = \"\") {\n  return String(value)\n    .trim()\n    .toLowerCase()\n    .replace(/\\/+$/, \"\");\n}\n\nconst existingUrls = new Set();\n\n// Get all JOB URL values from Google Sheets rows\nfor (const row of excelRows) {\n  const sheetUrl = row.json[\"JOB URL\"] || \"\";\n  const normalized = normalizeUrl(sheetUrl);\n\n  if (normalized) {\n    existingUrls.add(normalized);\n  }\n}\n\n// Output only jobs whose job_url is NOT already in sheet\nconst output = [];\n\nfor (const item of newJobs) {\n  const jobUrl = item.json.job_url || \"\";\n  const normalized = normalizeUrl(jobUrl);\n\n  if (normalized && !existingUrls.has(normalized)) {\n    output.push({\n      json: item.json,\n    });\n  }\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1792,
+        208
+      ],
+      "id": "122fa4e0-b4a1-42e8-a685-d58260b65b49",
+      "name": "New BuiltIn Jobs Map",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Define your Base Search URLs\nconst baseUrls = [\n  \"https://www.ycombinator.com/jobs/role/software-engineer\"\n];\n\nreturn baseUrls.map(url => ({\n  json: {\n    url\n  }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        528,
+        384
+      ],
+      "id": "dbeec185-3ff4-4138-beea-8b45a8fc8d52",
+      "name": "YC"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        384
+      ],
+      "id": "b356e824-45e0-4308-9e91-ccde42d24a33",
+      "name": "HTTP Request for YC"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst output = [];\nconst seen = new Set();\n\nfunction decodeHtml(str = \"\") {\n  return String(str)\n    .replace(/&#x2F;/g, \"/\")\n    .replace(/&#x27;/g, \"'\")\n    .replace(/&#x2B;/g, \"+\")\n    .replace(/&amp;/g, \"&\")\n    .replace(/&quot;/g, '\"')\n    .replace(/&#39;/g, \"'\")\n    .replace(/&lt;/g, \"<\")\n    .replace(/&gt;/g, \">\")\n    .replace(/&nbsp;/g, \" \")\n    .trim();\n}\n\nfunction pushResult(source, jobTitle, jobUrl, posted) {\n  if (!jobTitle || !jobUrl || !posted) return;\n\n  const key = `${source}|${jobTitle}|${jobUrl}|${posted}`;\n  if (seen.has(key)) return;\n\n  seen.add(key);\n\n  output.push({\n    json: {\n      source,\n      jobTitle,\n      jobUrl,\n      posted,\n    },\n  });\n}\n\nfunction withinTwoHours(posted = \"\") {\n  const p = posted.toLowerCase();\n\n  if (/\\ban hour ago\\b/i.test(p)) return true;\n\n  const match = p.match(/(\\d+)\\s+(minute|minutes|hour|hours)/);\n  if (!match) return false;\n\n  const value = parseInt(match[1], 10);\n  const unit = match[2];\n\n  if (unit.startsWith(\"minute\")) return true;\n  if (unit.startsWith(\"hour\") && value <= 2) return true;\n\n  return false;\n}\n\nfor (const item of items) {\n  const html = item.json.data || item.json.stdout || item.json.body || \"\";\n\n  if (!html || typeof html !== \"string\") continue;\n\n  // ==============================\n  // YC / WorkAtAStartup\n  // ==============================\n  const ycBlockRegex =\n    /&quot;title&quot;:&quot;([\\s\\S]*?)&quot;[\\s\\S]*?&quot;url&quot;:&quot;(\\/companies\\/[\\s\\S]*?\\/jobs\\/[\\s\\S]*?)&quot;[\\s\\S]*?&quot;lastActive&quot;:&quot;([\\s\\S]*?)&quot;/gi;\n\n  let ycMatch;\n\n  while ((ycMatch = ycBlockRegex.exec(html)) !== null) {\n    const jobTitle = decodeHtml(ycMatch[1]).replace(/\\s+/g, \" \").trim();\n    const rawUrl = decodeHtml(ycMatch[2]).trim();\n    let posted = decodeHtml(ycMatch[3]).replace(/\\s+/g, \" \").trim();\n\n    // YC uses \"about 20 hours\" instead of \"about 20 hours ago\"\n    if (\n      /\\b(?:about\\s+)?\\d+\\s+(?:minute|minutes|hour|hours)\\b/i.test(posted) &&\n      !/\\bago\\b/i.test(posted)\n    ) {\n      posted = `${posted} ago`;\n    }\n\n    if (!withinTwoHours(posted)) continue;\n\n    const jobUrl = rawUrl.startsWith(\"http\")\n      ? rawUrl\n      : `https://www.ycombinator.com${rawUrl}`;\n\n    pushResult(\"YC\", jobTitle, jobUrl, posted);\n  }\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        384
+      ],
+      "id": "38d381b9-3c7a-497c-b730-2c8f9768e89a",
+      "name": "YC Jobs within last 2 Hours Map"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=node /home/node/scripts/fetch.js \"{{ $json.jobUrl }}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        384
+      ],
+      "id": "1437cb49-aef3-4129-8777-2c5674980f4b",
+      "name": "YC HTML Extract"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. Get all items from the input node\nconst items = $input.all();\n\nconst results = items.map((item, index) => {\n  // Extract HTML from common n8n keys\n  const html = item.json.stdout || item.json.data || item.json.html || \"\";\n  \n  // 2. Extract Job URL\n  let jobUrl = $(\"YC Jobs within last 2 Hours Map\").all()[index]?.json?.jobUrl || \"No Link Provided\";\n\n  // ADDED: get source from Jobs within last 2 Hours Map\n  const source = $(\"YC Jobs within last 2 Hours Map\").all()[index]?.json?.source || \"\";\n\n  // 3. Clean HTML to get readable text for processing\n  const cleanText = html\n    .replace(/<script[\\s\\S]*?<\\/script>/gi, ' ')\n    .replace(/<style[\\s\\S]*?<\\/style>/gi, ' ')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/\\s+/g, ' ')\n    .toLowerCase();\n\n  const wordToNum = {\n    'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5,\n    'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10\n  };\n\n  // 4. Years of Experience Extraction\n  let yearsOfExperience = 0;\n\n  const expRegex = /\\b(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(?:\\+|plus|-|to|–|—)\\s*(?:\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)?\\s*(?:years?|yrs?|yr)\\b|\\b(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)\\s*(?:years?|yrs?|yr)\\b/gi;\n  \n  const matches = Array.from(cleanText.matchAll(expRegex));\n\n  const positiveSignals = [\"minimum\", \"at least\", \"required\", \"experience\", \"preferred\", \"demonstrated\", \"atleast\"];\n  const negativeSignals = [\"founded\", \"since\", \"history\", \"clients\", \"serving\", \"million\"];\n\n  for (const m of matches) {\n    const firstPart = (m[1] || m[2]).toLowerCase();\n    const n = wordToNum[firstPart] !== undefined ? wordToNum[firstPart] : parseInt(firstPart, 10);\n    \n    if (isNaN(n) || n > 20 || n === 0) continue;\n\n    const start = Math.max(0, m.index - 100);\n    const end = Math.min(cleanText.length, m.index + 100);\n    const context = cleanText.slice(start, end);\n\n    const hasPositive = positiveSignals.some(sig => context.includes(sig));\n    const hasNegative = negativeSignals.some(sig => context.includes(sig));\n\n    if (hasPositive && !hasNegative) {\n      yearsOfExperience = n;\n      break; \n    }\n  }\n\n  // 5. Visa Extraction Logic\n  let visaStatus = \"Uncertain\";\n  const noSponsorRegex = /(no sponsorship|does not provide sponsorship|not eligible for h1-?b|must be authorized to work|unable to provide visa sponsorship|must be a us citizen)/i;\n  const yesSponsorRegex = /(sponsorship available|visa sponsorship|h1-?b sponsorship|will sponsor|we do sponsor)/i;\n\n  if (noSponsorRegex.test(html)) {\n    visaStatus = \"No\";\n  } else if (yesSponsorRegex.test(html)) {\n    visaStatus = \"Yes\";\n  }\n\n  // 6. Job Title Extraction\n  const jobTitle = html.match(/<title>(.*?)<\\/title>/i)?.[1]?.split('|')[0].trim() || \"Unknown\";\n\n  return {\n    json: {\n      source: source, // ADDED\n      job_title: jobTitle,\n      job_url: jobUrl,\n      years_of_experience: yearsOfExperience,\n      visa_status: visaStatus\n    }\n  };\n});\n\n// 7. Final Filter: years_of_experience <= 3 AND visa_status is not \"No\"\nreturn results.filter(item => {\n  const data = item.json;\n  return data.years_of_experience <= 3 && data.visa_status !== \"No\";\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1264,
+        384
+      ],
+      "id": "f2dbb868-ffb0-410a-a17f-5b3fd9bf1941",
+      "name": "YC Map"
+    },
+    {
+      "parameters": {
+        "jsCode": "const newJobs = $input.all();\nconst excelRows = $('Get Rows to check jobs').all();\n\nfunction normalizeUrl(value = \"\") {\n  return String(value)\n    .trim()\n    .toLowerCase()\n    .replace(/\\/+$/, \"\");\n}\n\nconst existingUrls = new Set();\n\n// Get all JOB URL values from Google Sheets rows\nfor (const row of excelRows) {\n  const sheetUrl = row.json[\"JOB URL\"] || \"\";\n  const normalized = normalizeUrl(sheetUrl);\n\n  if (normalized) {\n    existingUrls.add(normalized);\n  }\n}\n\n// Output only jobs whose job_url is NOT already in sheet\nconst output = [];\n\nfor (const item of newJobs) {\n  const jobUrl = item.json.job_url || \"\";\n  const normalized = normalizeUrl(jobUrl);\n\n  if (normalized && !existingUrls.has(normalized)) {\n    output.push({\n      json: item.json,\n    });\n  }\n}\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        384
+      ],
+      "id": "8600c751-899a-4833-a3cd-d5b54c56226a",
+      "name": "New YC Jobs Map",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputData =$input.item.json.stdout; \n\nconst lines = inputData.trim().split('\\n');\nconst lastLine = lines[lines.length - 1];\n\ntry {\n    const resultJson = JSON.parse(lastLine);\n    return [{\n        json: {\n            application_status: resultJson.application_result,\n            job_url: resultJson.jobUrl,\n            raw_status: resultJson.status\n        }\n    }];\n} catch (e) {\n    return [{\n        json: {\n            application_status: \"skipped\",\n            error: \"Could not parse final JSON output\"\n        }\n    }];\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4720,
+        752
+      ],
+      "id": "79130638-d6b0-4863-8e2f-e6d66ee31223",
+      "name": "Job Application Map"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=### ROLE: Senior Executive Technical Recruiter & Lead Hiring Manager\n### TASK: Generate an Elite Scorecard for an Early-Career (1–3 YOE) Technical Role\n\n### DATA INPUT:\n- Resume: <resume>\nPROFESSIONAL SUMMARY\n{{ $json.summary }}\n\nPROFESSIONAL SKILLS AND INTERESTS\n{{ $('Big Six Skills Map').item.json['Big Six Skill 1'] }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 2'] }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 3'] }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 4'] }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 5'] }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 6'] }}\n\nPROFESSIONAL SKILLS DEMONSTRATED\nCOMPANY NAME 1\nDATE - DATE\n{{ $json.task2CompanyDescription }}\nTITLE\n{{ $json.task2RoleDescription }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 1'] }}: {{ $json.task2Skill1Point }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 2'] }}: {{ $json.task2Skill2Point }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 3'] }}: {{ $json.task2Skill3Point }}\n\nCOMPANY NAME 2\nDATE - DATE\n{{ $json.task3CompanyDescription }}\nTITLE\n{{ $json.task3RoleDescription }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 1'] }}: {{ $json.task3Skill1Point }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 2'] }}: {{ $json.task3Skill2Point }}\n{{ $('Big Six Skills Map').item.json['Big Six Skill 3'] }}: {{ $json.task3Skill3Point }}\n\nPREVIOUS ROLES\n\nTITLE  \nDATE - DATE\nDESCRIPTION\n\nTITLE  \nDATE - DATE\nDESCRIPTION\n\nPROJECTS\n\nPROJECT TITLE - PROJECT DESCRIPTION\n\nPROJECT TITLE - PROJECT DESCRIPTION\n\n\nLEADERSHIP\n\nTITLE  \nDATE - DATE\nDESCRIPTION\n\nEDUCATION\n\nDEGREE in SPECIALIZATION. UNIVERSITY (CITY, STATE)\nGPA\nSCHOLARSHIP\n\nDEGREE in SPECIALIZATION. UNIVERSITY (CITY, STATE)\nGPA\nSCHOLARSHIP\n\nOTHER RELEVANT INFORMATION\nTechnical Skills: {{ $json.task4Skill1 }} | {{ $json.task4Skill2 }} | {{ $json.task4Skill3 }} | {{ $json.task4Skill4 }} | {{ $json.task4Skill5 }} | {{ $json.task4Skill6 }}\n\nSoft Skills: {{ $json.task5Skill1 }} | {{ $json.task5Skill2 }} | {{ $json.task5Skill3 }} | {{ $json.task5Skill4 }} | {{ $json.task5Skill5 }} | {{ $json.task5Skill6 }}\n\nCertifications:\n\n</resume>\n- Job Description: <description>{{ $('Job Description Extraction').item.json.job_description }}\n</description>\n\n###SCORING RUBRIC (THE METHOD):\n- TITLE_VELOCITY (25 pts): Recruiter Logic. Focus on \"Density of Achievement\" rather than years. Did they accomplish in 1 year what takes most 3 years? Higher points for rapid self-teaching and high-output timelines.\n- TITLE_RIGOR (25 pts): Manager Logic. Evidence of \"Production Thinking.\" Award points if they mention Error Handling, Scalability, Testing, or Security. Deduction for projects that lack customization, ownership, or production context. \n- TITLE_DEPTH (20 pts): Technical Skill. Can they handle \"Non-Trivial\" logic? Look for State management, API architecture, or complex Data structures.\n- TITLE_BASE (15 pts): The Base. Do they have core mental models (CS degree or equivalent) and the specific language fluency required for this stack?\n- TITLE_DNA (15 pts): Business Value. Do they understand the \"Why\"? Points for industry context (e.g., Healthcare, SaaS) and high communication clarity in the resume.\n\n###OUTPUT FORMATTING RULES:\n- STRICT: DO NOT use asterisks (*), bolding (**), dashes (-), or bullet points.\n- Use ONLY the markers: TITLE_VELOCITY, TITLE_RIGOR, TITLE_DEPTH, TITLE_BASE, TITLE_DNA.\n- Each Analysis paragraph must be a single, continuous line of text.\n\n### Alignment Score: [Insert Total Number / 100]\n\n### Overview\n[Sentence 1: Summary of the total score. Sentence 2: The strongest engineering signal found. Sentence 3: The biggest technical or experience gap.]\n\n### Analysis\n\n### TITLE_VELOCITY\n[Sentence 1: Score out of 25. Sentence 2: Detailed justification based on their career density and learning speed. Sentence 3: Conclusion on their potential for rapid growth.]\n\n### TITLE_RIGOR\n[Sentence 1: Score out of 25. Sentence 2: Evaluation of production-grade habits found (testing, security, etc). Sentence 3: Analysis of whether they write professional-grade or student-grade code.]\n\n### TITLE_DEPTH\n[Sentence 1: Score out of 20. Sentence 2: Breakdown of the most complex logic demonstrated. Sentence 3: Assessment of their ability to handle the technical requirements of this specific job.] Depth should be evaluated relative to the job description and team maturity \n\n### TITLE_BASE\n[Sentence 1: Score out of 15. Sentence 2: Confirmation of foundational knowledge and language fluency. Sentence 3: Assessment of theoretical readiness for a technical environment.]\n\n### TITLE_DNA\n[Sentence 1: Score out of 15. Sentence 2: Evaluation of industry context and product alignment. Sentence 3: Conclusion on their communication clarity and team-fit potential.]"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.1,
+      "position": [
+        4176,
+        112
+      ],
+      "id": "0f66e54f-932b-4559-8a5e-c18277d45d70",
+      "name": "Score"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://google.serper.dev/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-API-KEY"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{\nJSON.stringify({\n  \"q\": `(\"software engineer\" OR \"full stack\" OR \"frontend engineer\" OR \"backend engineer\") (junior OR jr OR mid OR senior) site: \"${$json.site}\" -intern -internship -apprentice -staff -principal -lead -manager -director -vp -electrical -mechanical -civil -hardware`,\n  \"gl\": \"us\",\n  \"tbs\": \"qdr:h3\",\n  \"num\": 10\n})\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        704,
+        16
+      ],
+      "id": "894897b8-8549-4c79-8ed6-b066d732bf6e",
+      "name": "HTTP Request for Job Boards"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        208
+      ],
+      "id": "b164cfcb-3cba-4d54-8879-e32c0dea0a88",
+      "name": "Get Rows to check jobs",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2464,
+        208
+      ],
+      "id": "39b5cbee-6541-4f67-83bb-bf2485b32e2f",
+      "name": "New Jobs",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4176,
+        304
+      ],
+      "id": "cb39c110-8abc-45af-8293-57ee8f245a80",
+      "name": "Cover Letter Template"
+    },
+    {
+      "parameters": {
+        "operation": "copy",
+        "fileId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4864,
+        112
+      ],
+      "id": "2c51e8a9-6912-4761-a347-a0bee2577126",
+      "name": "Resume Template"
+    },
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        4752,
+        304
+      ],
+      "id": "b1666480-a84f-4517-a67d-89c297c1f691",
+      "name": "Upload Cover Letter.pdf"
+    },
+    {
+      "parameters": {
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        5440,
+        112
+      ],
+      "id": "3b2f7ddb-3fe7-497c-8c42-a078342e1835",
+      "name": "Upload Resume.pdf"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        6016,
+        208
+      ],
+      "id": "0afa5ae3-2453-4bf9-9fe9-71b6a65f6982",
+      "name": "Update Row"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2672,
+        656
+      ],
+      "id": "a78d2f87-c510-4e63-897e-68451be32478",
+      "name": "Update Recruiter Email Status"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2672,
+        848
+      ],
+      "id": "74634137-00ef-4a4e-b831-ca24ea2e776d",
+      "name": "Update Hiring Manager Email Status"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        3232,
+        752
+      ],
+      "id": "1826e438-1608-430f-aa49-f5242f64ebee",
+      "name": "Get Row For Job Application"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        4928,
+        752
+      ],
+      "id": "1f11b376-3e24-4622-929f-6c7cf7d9f0f3",
+      "name": "Update Job Status"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 17 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        752
+      ],
+      "id": "c8e3dfb2-27cf-4de3-b5b8-bca4fd475cf2",
+      "name": "ATLAS - EMAIL SENDER"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8,11,14,17 * * 1-5"
+            },
+            {
+              "field": "cronExpression",
+              "expression": "30 9,12,15 * * 1-5"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        192,
+        208
+      ],
+      "id": "f95c26cf-d550-46d9-a733-e69906136cf9",
+      "name": "ATLAS - SEARCH AND CREATION"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f03cfcf9-6dcc-49bb-af30-d658803dbbad",
+              "leftValue": "={{ $json.job_url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2128,
+        208
+      ],
+      "id": "00462b2b-2bf7-4c13-b75b-712834047b2f",
+      "name": "Check if Job URLs Exist"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        752
+      ],
+      "id": "16963d9e-0c23-46bc-ae8b-3ee8c7e0d191",
+      "name": "Get Rows For Emails"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        592,
+        752
+      ],
+      "id": "b9c4a41e-1e7d-4a74-90d3-5851d4288ea7",
+      "name": "Get Rows For Emails With Email Status Check",
+      "executeOnce": true
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        },
+        "sheetName": {
+          "__rl": true,
+          "mode": "list",
+          "value": ""
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2304,
+        208
+      ],
+      "id": "950c14ab-857b-48f0-9567-76dbb3b4b611",
+      "name": "Add New Jobs"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Big Six Skills": {
+      "main": [
+        [
+          {
+            "node": "Big Six Skills Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Big Six Skills Map": {
+      "main": [
+        [
+          {
+            "node": "Resume",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Resume.doc": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cover Letter Map": {
+      "main": [
+        [
+          {
+            "node": "Updated Cover Letter",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cover Letter Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete Cover Letter.doc": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Score Map": {
+      "main": [
+        [
+          {
+            "node": "Score Checker",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Map": {
+      "main": [
+        [
+          {
+            "node": "If Recruiter Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "If Hiring Manager Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email": {
+      "main": [
+        [
+          {
+            "node": "Email Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Checker": {
+      "main": [
+        [
+          {
+            "node": "Resume Template",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converting to PDF Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Upload Cover Letter.pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converting to PDF Resume": {
+      "main": [
+        [
+          {
+            "node": "Upload Resume.pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Resume": {
+      "main": [
+        [
+          {
+            "node": "Resume as Text",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Write Resume to scripts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume as Text": {
+      "main": [
+        [
+          {
+            "node": "Write And Save Resume",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Download Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Write Cover Letter to scripts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Cover Letter as Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Resume to scripts": {
+      "main": [
+        [
+          {
+            "node": "Write And Save Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Cover Letter to scripts": {
+      "main": [
+        [
+          {
+            "node": "Write And Save Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Resume And Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Prepare Application Data Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Application Data Map": {
+      "main": [
+        [
+          {
+            "node": "Job Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ATLAS - JOB APPLICATION": {
+      "main": [
+        [
+          {
+            "node": "Get Row For Job Application",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Description Extraction": {
+      "main": [
+        [
+          {
+            "node": "Big Six Skills",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Boards": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request for Job Boards",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Jobs": {
+      "main": [
+        [
+          {
+            "node": "Remove application, apply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Boards HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "Job Boards Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Boards Map": {
+      "main": [
+        [
+          {
+            "node": "New Jobs Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove application, apply": {
+      "main": [
+        [
+          {
+            "node": "Job Boards HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Jobs Map": {
+      "main": [
+        [
+          {
+            "node": "Merge Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over JOB URL": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Job Description HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Cover Letter Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume": {
+      "main": [
+        [
+          {
+            "node": "Resume Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Map": {
+      "main": [
+        [
+          {
+            "node": "Score",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Updated Resume": {
+      "main": [
+        [
+          {
+            "node": "Converting to PDF Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Updated Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Converting to PDF Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Description HTML": {
+      "main": [
+        [
+          {
+            "node": "Job Description Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Update Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Jobs": {
+      "main": [
+        [
+          {
+            "node": "Check if Job URLs Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Email Available": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download Resume For Email": {
+      "main": [
+        [
+          {
+            "node": "Resume as Text For Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume as Text For Email": {
+      "main": [
+        [
+          {
+            "node": "Bullet Points Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Bullet Points Map": {
+      "main": [
+        [
+          {
+            "node": "Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Recruiter Email": {
+      "main": [
+        [
+          {
+            "node": "Recruiter Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recruiter Email": {
+      "main": [
+        [
+          {
+            "node": "Update Recruiter Email Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Hiring Manager Email": {
+      "main": [
+        [
+          {
+            "node": "Hiring Manager Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hiring Manager Email": {
+      "main": [
+        [
+          {
+            "node": "Update Hiring Manager Email Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over JOB URLs To Apply": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Download Resume",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Download Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Job Application": {
+      "main": [
+        [
+          {
+            "node": "Job Application Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Emails": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Download Resume For Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Cover Letter as Text": {
+      "main": [
+        [
+          {
+            "node": "Write And Save Cover Letter",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Write And Save Resume": {
+      "main": [
+        [
+          {
+            "node": "Write Resume And Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write And Save Cover Letter": {
+      "main": [
+        [
+          {
+            "node": "Write Resume And Cover Letter",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "BuiltIn": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request for BuiltIn",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request for BuiltIn": {
+      "main": [
+        [
+          {
+            "node": "BuiltIn Jobs within last 2 Hours Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuiltIn Jobs within last 2 Hours Map": {
+      "main": [
+        [
+          {
+            "node": "BuiltIn Job Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuiltIn Job Extraction": {
+      "main": [
+        [
+          {
+            "node": "Extract The New Job URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract The New Job URLs": {
+      "main": [
+        [
+          {
+            "node": "BuiltIn HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuiltIn HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "BuiltIn Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "BuiltIn Map": {
+      "main": [
+        [
+          {
+            "node": "New BuiltIn Jobs Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New BuiltIn Jobs Map": {
+      "main": [
+        [
+          {
+            "node": "Merge Jobs",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "YC": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request for YC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request for YC": {
+      "main": [
+        [
+          {
+            "node": "YC Jobs within last 2 Hours Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YC Jobs within last 2 Hours Map": {
+      "main": [
+        [
+          {
+            "node": "YC HTML Extract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YC HTML Extract": {
+      "main": [
+        [
+          {
+            "node": "YC Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "YC Map": {
+      "main": [
+        [
+          {
+            "node": "New YC Jobs Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New YC Jobs Map": {
+      "main": [
+        [
+          {
+            "node": "Merge Jobs",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Job Application Map": {
+      "main": [
+        [
+          {
+            "node": "Update Job Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score": {
+      "main": [
+        [
+          {
+            "node": "Score Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request for Job Boards": {
+      "main": [
+        [
+          {
+            "node": "Split Out Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Rows to check jobs": {
+      "main": [
+        [
+          {
+            "node": "Job Boards",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "BuiltIn",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "YC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Jobs": {
+      "main": [
+        [
+          {
+            "node": "Loop Over JOB URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Template": {
+      "main": [
+        [
+          {
+            "node": "Updated Resume",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Cover Letter.pdf": {
+      "main": [
+        [
+          {
+            "node": "Delete Cover Letter.doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Resume.pdf": {
+      "main": [
+        [
+          {
+            "node": "Delete Resume.doc",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Row": {
+      "main": [
+        [
+          {
+            "node": "Loop Over JOB URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Recruiter Email Status": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Hiring Manager Email Status": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Row For Job Application": {
+      "main": [
+        [
+          {
+            "node": "Loop Over JOB URLs To Apply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Job Status": {
+      "main": [
+        [
+          {
+            "node": "Loop Over JOB URLs To Apply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ATLAS - EMAIL SENDER": {
+      "main": [
+        [
+          {
+            "node": "Get Rows For Emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ATLAS - SEARCH AND CREATION": {
+      "main": [
+        [
+          {
+            "node": "Get Rows to check jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Job URLs Exist": {
+      "main": [
+        [
+          {
+            "node": "Add New Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Rows For Emails": {
+      "main": [
+        [
+          {
+            "node": "Get Rows For Emails With Email Status Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Rows For Emails With Email Status Check": {
+      "main": [
+        [
+          {
+            "node": "Check If Email Available",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add New Jobs": {
+      "main": [
+        [
+          {
+            "node": "New Jobs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "96f74f9c-e55d-480c-8a17-341d35923308",
+  "meta": {
+    "instanceId": "4b493b054b8d702698bc663a19ba338c8f818532fa40f5052e6e7174b451fa46"
+  },
+  "id": "GlN35jyOM78mQt4A",
+  "tags": []
+}
