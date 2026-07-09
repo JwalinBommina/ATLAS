@@ -22,10 +22,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        3184,
-        208
+        3072,
+        288
       ],
-      "id": "b7f49093-0a91-4687-a058-3ec3ff1e1ed1",
+      "id": "5bedaeda-1a36-46d2-8f7c-1edc05d0f10d",
       "name": "Big Six Skills"
     },
     {
@@ -35,10 +35,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3504,
-        208
+        3392,
+        288
       ],
-      "id": "9f9c98b9-a4b5-45c3-9a67-9a62b5132b3d",
+      "id": "f3e74e30-5395-4661-970f-1a45c54ba7f3",
       "name": "Big Six Skills Map"
     },
     {
@@ -54,10 +54,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        5632,
-        112
+        5520,
+        192
       ],
-      "id": "c4da6220-00cb-49eb-a7bc-d30dc543aae2",
+      "id": "c9e6dad4-1eec-4e72-ae08-10fbccb40212",
       "name": "Delete Resume.doc"
     },
     {
@@ -67,10 +67,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4016,
-        304
+        3904,
+        384
       ],
-      "id": "ca8088f2-cc79-4de0-b034-a50c3a8d02e3",
+      "id": "5d3d35ad-8f21-4e91-a0ba-b46ed074c086",
       "name": "Cover Letter Map"
     },
     {
@@ -86,10 +86,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4944,
-        304
+        4832,
+        384
       ],
-      "id": "f326287a-9cc1-4608-a13a-d4894abf2c5b",
+      "id": "85fa499c-38aa-4ecd-9fbc-d392dc877b00",
       "name": "Delete Cover Letter.doc"
     },
     {
@@ -99,10 +99,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4480,
-        112
+        4368,
+        192
       ],
-      "id": "698f1201-9a5e-41ab-a11b-74ce160e3ff6",
+      "id": "d06bff1b-1a0d-4941-8b03-2b9a1273426e",
       "name": "Score Map"
     },
     {
@@ -112,10 +112,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2096,
-        752
+        1984,
+        832
       ],
-      "id": "0fc2fdd1-e7c1-4401-8c49-6b51918a4984",
+      "id": "b856a567-3f9d-4004-bdb2-e8a61bd24bd9",
       "name": "Email Map"
     },
     {
@@ -138,10 +138,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        1776,
-        752
+        1664,
+        832
       ],
-      "id": "708451b6-5ae6-4228-9da7-4ab87bd83312",
+      "id": "77fee7b8-bbb8-42e7-95f5-08df7dd07871",
       "name": "Email"
     },
     {
@@ -171,10 +171,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        4656,
-        112
+        4544,
+        192
       ],
-      "id": "99a82e65-5792-4685-b503-46608e1439c3",
+      "id": "eb38c046-3e12-4a07-aeac-a602268073be",
       "name": "Score Checker"
     },
     {
@@ -187,10 +187,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        4560,
-        304
+        4448,
+        384
       ],
-      "id": "9cda551c-2b78-47ba-9c93-bf92a7dc50b1",
+      "id": "5df9334d-83c7-4ffc-b47e-3c6f762ecafa",
       "name": "Converting to PDF Cover Letter"
     },
     {
@@ -203,10 +203,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        5248,
-        112
+        5136,
+        192
       ],
-      "id": "aa3ef2a7-f36b-4ce8-9a78-334fbcc212f3",
+      "id": "308f302b-5c1f-4ce1-9c15-19e12c01e833",
       "name": "Converting to PDF Resume"
     },
     {
@@ -222,10 +222,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3616,
-        672
+        3504,
+        752
       ],
-      "id": "e87488b8-6315-409d-bec5-4e85513da1de",
+      "id": "3ba2b6e5-67f0-4111-b5a0-58ed92ed3259",
       "name": "Download Resume"
     },
     {
@@ -236,10 +236,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        3792,
-        720
+        3680,
+        800
       ],
-      "id": "62f507ce-2e8c-497e-abfd-b4cf0c713d81",
+      "id": "d1db344f-6b00-46ff-a948-f65ecc266935",
       "name": "Resume as Text"
     },
     {
@@ -255,10 +255,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        3616,
-        880
+        3504,
+        960
       ],
-      "id": "a16ca26d-924f-4017-81a9-692e508b196d",
+      "id": "ab7b2979-5a07-4fc3-88e1-1fd73ae7afd2",
       "name": "Download Cover Letter"
     },
     {
@@ -270,10 +270,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        3792,
-        576
+        3680,
+        656
       ],
-      "id": "5e497820-b5ee-46f7-88de-6693dae909f5",
+      "id": "bdcb68b0-df9b-4e91-8b51-61676fdc904e",
       "name": "Write Resume to scripts"
     },
     {
@@ -285,10 +285,10 @@
       "type": "n8n-nodes-base.readWriteFile",
       "typeVersion": 1.1,
       "position": [
-        3792,
-        880
+        3680,
+        960
       ],
-      "id": "28088138-cbaf-47f8-b7b4-4517ab12dd50",
+      "id": "a5acc5b5-6639-4683-82a0-7d4ab8e9bd73",
       "name": "Write Cover Letter to scripts"
     },
     {
@@ -300,10 +300,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        4144,
-        752
+        4032,
+        832
       ],
-      "id": "09a102f8-b75f-40be-ae8f-f7e524541cd2",
+      "id": "387c8889-e063-4ee8-a92c-13580f10c30f",
       "name": "Write Resume And Cover Letter"
     },
     {
@@ -313,10 +313,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4336,
-        752
+        4224,
+        832
       ],
-      "id": "0109eaf8-b046-4050-a8cc-d66cd6b8c9fb",
+      "id": "64d40818-3c85-403b-9657-7bca1c0b200c",
       "name": "Prepare Application Data Map"
     },
     {
@@ -324,10 +324,10 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        3024,
-        752
+        2912,
+        832
       ],
-      "id": "564af91a-2fe9-4b65-94e7-5a6602bab79d",
+      "id": "7b97bead-bafa-4ca2-a7ac-7e92d7dc7fcb",
       "name": "ATLAS - JOB APPLICATION"
     },
     {
@@ -339,11 +339,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        2976,
-        544
+        2864,
+        624
       ],
       "typeVersion": 1,
-      "id": "fe6524be-cc3e-4241-804a-0b3019666a40",
+      "id": "d165fa3d-99ea-4823-93b4-95032dcee303",
       "name": "Sticky Note1"
     },
     {
@@ -353,10 +353,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3008,
-        208
+        2896,
+        288
       ],
-      "id": "3a780f0e-6c22-49f3-8711-9851e86ad855",
+      "id": "28ad46bd-8e34-482f-a5d6-54999eabf873",
       "name": "Job Description Extraction"
     },
     {
@@ -366,10 +366,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        16
+        416,
+        96
       ],
-      "id": "66404d0c-b55a-45b2-84b0-2499099515e7",
+      "id": "18fdef18-ce7c-4d1b-bbc5-a306f0d9b391",
       "name": "Job Boards"
     },
     {
@@ -380,10 +380,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        896,
-        16
+        784,
+        96
       ],
-      "id": "bbca1746-f54e-46f4-8eaf-f0a4cc690bb0",
+      "id": "2d3a1ecd-51e9-434f-8ec7-c2cece78475c",
       "name": "Split Out Jobs"
     },
     {
@@ -394,10 +394,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1264,
-        16
+        1152,
+        96
       ],
-      "id": "6245a316-fcfd-432c-b9e4-c45f995cc363",
+      "id": "0b2d8d4f-d8e4-431d-a068-fa62aca5b5e9",
       "name": "Job Boards HTML Extract"
     },
     {
@@ -407,10 +407,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        16
+        1328,
+        96
       ],
-      "id": "133a7266-257e-4166-bf33-a483d4502054",
+      "id": "70cdeca8-f4c6-4aa1-ba1c-66ca412e5684",
       "name": "Job Boards Map"
     },
     {
@@ -420,10 +420,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1072,
-        16
+        960,
+        96
       ],
-      "id": "2cfacff4-ac51-4ccf-98cd-e01900529960",
+      "id": "e6364979-7d7c-4196-bc0c-99889a3ef817",
       "name": "Remove application, apply"
     },
     {
@@ -433,10 +433,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1616,
-        16
+        1504,
+        96
       ],
-      "id": "e7a7399d-7859-4c2e-b2e4-44bd67c802ce",
+      "id": "cd873670-2516-4641-843a-eb09e218b0c8",
       "name": "New Jobs Map",
       "alwaysOutputData": true
     },
@@ -447,10 +447,10 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        2640,
-        208
+        2528,
+        288
       ],
-      "id": "aacc6be3-86be-485a-bd4c-458b6778cc06",
+      "id": "a32bf1e3-1bf3-4d37-bea0-46516701bdb0",
       "name": "Loop Over JOB URL"
     },
     {
@@ -474,10 +474,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        3696,
-        304
+        3584,
+        384
       ],
-      "id": "3716e891-9923-4d47-8ed8-dec787fefef5",
+      "id": "3e854e80-dd8e-4a09-9490-6bd658b4858b",
       "name": "Cover Letter"
     },
     {
@@ -501,10 +501,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        3696,
-        112
+        3584,
+        192
       ],
-      "id": "f4179ffa-ef5b-4b0c-9396-d06d248a086a",
+      "id": "49fca4c6-588e-4e27-97af-94e7b0ca88fb",
       "name": "Resume"
     },
     {
@@ -514,10 +514,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4000,
-        112
+        3888,
+        192
       ],
-      "id": "2e679313-8e29-4949-816e-edeb48e74f92",
+      "id": "9be33b8d-26c0-437b-9d7f-53599a67df1d",
       "name": "Resume Map"
     },
     {
@@ -706,10 +706,10 @@
       "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 2,
       "position": [
-        5056,
-        112
+        4944,
+        192
       ],
-      "id": "4c3aa5b3-ec49-4043-a18c-8d44dc4d55ce",
+      "id": "bf5acefe-f2f9-45e1-b12d-625eefbad395",
       "name": "Updated Resume"
     },
     {
@@ -754,10 +754,10 @@
       "type": "n8n-nodes-base.googleDocs",
       "typeVersion": 2,
       "position": [
-        4368,
-        304
+        4256,
+        384
       ],
-      "id": "504290da-29fb-45dc-abbf-8fdccbaa1054",
+      "id": "e824da45-c77e-4fc9-b741-374b49c0a59e",
       "name": "Updated Cover Letter"
     },
     {
@@ -768,10 +768,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        2816,
-        208
+        2704,
+        288
       ],
-      "id": "ec432203-0716-4cce-89cd-1d04aa05ac01",
+      "id": "fe74ea6d-4455-467e-b02c-c86a5231d197",
       "name": "Job Description HTML"
     },
     {
@@ -783,10 +783,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        5824,
-        208
+        5712,
+        288
       ],
-      "id": "1c0fad71-ee43-452f-97b6-742caf2b2f02",
+      "id": "3a62456e-ad43-4013-ba24-1120910e0161",
       "name": "Merge"
     },
     {
@@ -796,10 +796,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        1952,
-        192
+        1840,
+        272
       ],
-      "id": "4978410a-425e-42d9-aac3-dcf557cb5f09",
+      "id": "8517c65b-276e-4857-8169-b0c7d16ca7bd",
       "name": "Merge Jobs"
     },
     {
@@ -811,11 +811,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        112,
-        -80
+        0,
+        0
       ],
       "typeVersion": 1,
-      "id": "8921eeab-95d6-4e75-8f2d-520de6338f1e",
+      "id": "c6e7df25-05cd-42d0-936e-115609a09cf2",
       "name": "Sticky Note"
     },
     {
@@ -856,10 +856,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        784,
-        752
+        672,
+        832
       ],
-      "id": "e635df1d-60b8-4fba-87dd-405a518b050b",
+      "id": "8dc652fb-374b-47f0-a183-d66db183fe26",
       "name": "Check If Email Available"
     },
     {
@@ -875,10 +875,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        1184,
-        752
+        1072,
+        832
       ],
-      "id": "39102c40-a66f-4f9e-ba76-bfc4e53b4b3d",
+      "id": "09bc31fb-1e96-4f81-a810-74369633ac81",
       "name": "Download Resume For Email"
     },
     {
@@ -889,10 +889,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        1376,
-        752
+        1264,
+        832
       ],
-      "id": "4edf6c5c-6d08-4351-8b28-8974d87256c5",
+      "id": "2d9e53e8-061f-4f50-b8de-3c0a22413525",
       "name": "Resume as Text For Email"
     },
     {
@@ -902,10 +902,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1568,
-        752
+        1456,
+        832
       ],
-      "id": "01d09dd8-ce66-4439-a76a-5b2d3acd4398",
+      "id": "8aeb638c-fa3d-4d55-b7ea-7b21d5657820",
       "name": "Bullet Points Map"
     },
     {
@@ -946,10 +946,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2272,
-        656
+        2160,
+        736
       ],
-      "id": "f2ca2566-53c8-4234-9210-c796fcf96c91",
+      "id": "aa7fb270-0a79-471c-b913-18757d2415fe",
       "name": "If Recruiter Email"
     },
     {
@@ -962,10 +962,10 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2464,
-        656
+        2352,
+        736
       ],
-      "id": "9e77dc9f-41ae-498a-874f-57e2e8667022",
+      "id": "c8059a69-e163-4860-9401-710d44112a3e",
       "name": "Recruiter Email",
       "webhookId": "97d50a23-5f86-4680-8774-55b13901a7fc",
       "alwaysOutputData": false
@@ -1008,10 +1008,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2272,
-        848
+        2160,
+        928
       ],
-      "id": "c3720d63-ad50-440b-ab25-748188ebd0a9",
+      "id": "f7d34985-f541-4e9b-a554-98e499184dcc",
       "name": "If Hiring Manager Email"
     },
     {
@@ -1024,10 +1024,10 @@
       "type": "n8n-nodes-base.gmail",
       "typeVersion": 2.2,
       "position": [
-        2464,
-        848
+        2352,
+        928
       ],
-      "id": "e8f6089a-f5b2-4470-b07b-6279fc7a2dd8",
+      "id": "2ff0c657-46c3-4d7d-9740-12b148f5d5df",
       "name": "Hiring Manager Email",
       "webhookId": "4b55506f-cb14-4559-a0ba-80187b24fea1"
     },
@@ -1038,10 +1038,10 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        3440,
-        752
+        3328,
+        832
       ],
-      "id": "62304c99-747b-44e9-94f0-de6b12ffd64b",
+      "id": "895473de-275d-49ad-91a0-15037412c287",
       "name": "Loop Over JOB URLs To Apply"
     },
     {
@@ -1052,10 +1052,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        4528,
-        752
+        4416,
+        832
       ],
-      "id": "ba8c791d-5334-4c81-9e7a-05e21f636182",
+      "id": "efb5a360-ec92-47fe-83a6-87dfe4f158f3",
       "name": "Job Application",
       "alwaysOutputData": false
     },
@@ -1066,10 +1066,10 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        976,
-        752
+        864,
+        832
       ],
-      "id": "b33b7d18-3493-49fc-a1d3-386021c0d1e0",
+      "id": "0684f5a5-ad34-4a0f-8180-edd00919a729",
       "name": "Loop Over Emails"
     },
     {
@@ -1081,11 +1081,11 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        112,
-        544
+        0,
+        624
       ],
       "typeVersion": 1,
-      "id": "0239c954-8841-41ce-9978-611cc8827d49",
+      "id": "e92a89e0-8361-4eac-ad33-7f04dc74c938",
       "name": "Sticky Note2"
     },
     {
@@ -1096,10 +1096,10 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1.1,
       "position": [
-        3792,
-        1040
+        3680,
+        1120
       ],
-      "id": "ccb2a85f-73af-45dd-8af7-a009eea33d57",
+      "id": "b248c041-9293-4bf9-bd34-91e621534147",
       "name": "Cover Letter as Text"
     },
     {
@@ -1111,10 +1111,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3968,
-        672
+        3856,
+        752
       ],
-      "id": "60bfedbb-bcad-47cd-bd84-3fc4cbdd2dd8",
+      "id": "cf646a93-2483-45ba-942e-8b1e283f1b20",
       "name": "Write And Save Resume"
     },
     {
@@ -1126,10 +1126,10 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3968,
-        880
+        3856,
+        960
       ],
-      "id": "a3963486-f29f-4402-a04c-9598879f99c5",
+      "id": "ff0f4e0b-082d-446c-8f78-389dc59505c2",
       "name": "Write And Save Cover Letter"
     },
     {
@@ -1139,10 +1139,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        208
+        416,
+        288
       ],
-      "id": "2aa6ba5d-4617-44f5-b5b8-3d11db2a2a2e",
+      "id": "fbf45b11-30cb-4c6a-b202-7090401323f6",
       "name": "BuiltIn"
     },
     {
@@ -1153,10 +1153,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        704,
-        208
+        592,
+        288
       ],
-      "id": "724e2988-4a31-480e-aa95-d9d64d2bc051",
+      "id": "800a66c7-2dc0-4287-8281-51fd3aa82214",
       "name": "HTTP Request for BuiltIn"
     },
     {
@@ -1166,10 +1166,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        208
+        784,
+        288
       ],
-      "id": "fd685ad0-2d48-4d08-9e58-c5dd171d1061",
+      "id": "b7ed984f-432b-4cb2-99c7-5b620252b925",
       "name": "BuiltIn Jobs within last 2 Hours Map"
     },
     {
@@ -1180,10 +1180,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1072,
-        208
+        960,
+        288
       ],
-      "id": "a9461390-3e5d-4da4-8fbb-3da1ae015894",
+      "id": "3cebc2e9-9505-4c74-8c8f-d9d33fd5e231",
       "name": "BuiltIn Job Extraction",
       "alwaysOutputData": false
     },
@@ -1194,10 +1194,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1264,
-        208
+        1152,
+        288
       ],
-      "id": "84fe46f4-f281-4049-b94c-d5562d576ef9",
+      "id": "4df1e106-aa9e-4dc2-a91b-93e6966c54c5",
       "name": "Extract The New Job URLs"
     },
     {
@@ -1208,10 +1208,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1440,
-        208
+        1328,
+        288
       ],
-      "id": "e459da76-c5b4-4ddc-b055-e7eff801e634",
+      "id": "1a3e7646-577a-402a-9773-3353344b1a85",
       "name": "BuiltIn HTML Extract"
     },
     {
@@ -1221,10 +1221,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1616,
-        208
+        1504,
+        288
       ],
-      "id": "9ac2a89d-0bc1-44f6-b47c-b23f1417755f",
+      "id": "7380a59e-fe96-434c-a5ec-7850be2f2919",
       "name": "BuiltIn Map"
     },
     {
@@ -1234,10 +1234,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1792,
-        208
+        1680,
+        288
       ],
-      "id": "122fa4e0-b4a1-42e8-a685-d58260b65b49",
+      "id": "f4bded23-afe4-4a78-9afe-2267eab37ea8",
       "name": "New BuiltIn Jobs Map",
       "alwaysOutputData": true
     },
@@ -1248,10 +1248,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        528,
-        384
+        416,
+        464
       ],
-      "id": "dbeec185-3ff4-4138-beea-8b45a8fc8d52",
+      "id": "b5334dac-28ee-4f04-82d5-4f98220e2de0",
       "name": "YC"
     },
     {
@@ -1262,10 +1262,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        704,
-        384
+        592,
+        464
       ],
-      "id": "b356e824-45e0-4308-9e91-ccde42d24a33",
+      "id": "ea12070a-73d1-432e-a045-e63ad07e03e5",
       "name": "HTTP Request for YC"
     },
     {
@@ -1275,10 +1275,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        896,
-        384
+        784,
+        464
       ],
-      "id": "38d381b9-3c7a-497c-b730-2c8f9768e89a",
+      "id": "568069d9-1b4f-4fed-b469-c273c2b50191",
       "name": "YC Jobs within last 2 Hours Map"
     },
     {
@@ -1289,10 +1289,10 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        1072,
-        384
+        960,
+        464
       ],
-      "id": "1437cb49-aef3-4129-8777-2c5674980f4b",
+      "id": "8e642885-0df7-4c2e-9034-786ed9c2038e",
       "name": "YC HTML Extract"
     },
     {
@@ -1302,10 +1302,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1264,
-        384
+        1152,
+        464
       ],
-      "id": "f2dbb868-ffb0-410a-a17f-5b3fd9bf1941",
+      "id": "55dea55a-3b1b-466d-b5cf-a3c0b67cab87",
       "name": "YC Map"
     },
     {
@@ -1315,10 +1315,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1440,
-        384
+        1328,
+        464
       ],
-      "id": "8600c751-899a-4833-a3cd-d5b54c56226a",
+      "id": "0a8b423a-faca-45a4-b109-271fd486547b",
       "name": "New YC Jobs Map",
       "alwaysOutputData": true
     },
@@ -1329,10 +1329,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4720,
-        752
+        4608,
+        832
       ],
-      "id": "79130638-d6b0-4863-8e2f-e6d66ee31223",
+      "id": "b5ea441a-070f-4649-b221-f4a0c5299602",
       "name": "Job Application Map"
     },
     {
@@ -1356,10 +1356,10 @@
       "type": "@n8n/n8n-nodes-langchain.openAi",
       "typeVersion": 2.1,
       "position": [
-        4176,
-        112
+        4064,
+        192
       ],
-      "id": "0f66e54f-932b-4559-8a5e-c18277d45d70",
+      "id": "18137e73-e851-4bbb-a54a-e051fb360dd8",
       "name": "Score"
     },
     {
@@ -1386,10 +1386,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        704,
-        16
+        592,
+        96
       ],
-      "id": "894897b8-8549-4c79-8ed6-b066d732bf6e",
+      "id": "8760ac33-5148-49d7-b165-073186b56d01",
       "name": "HTTP Request for Job Boards"
     },
     {
@@ -1408,10 +1408,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        368,
-        208
+        256,
+        288
       ],
-      "id": "b164cfcb-3cba-4d54-8879-e32c0dea0a88",
+      "id": "4d58e9f2-313a-409a-b58e-aea92e876997",
       "name": "Get Rows to check jobs",
       "alwaysOutputData": true
     },
@@ -1431,10 +1431,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        2464,
-        208
+        2352,
+        288
       ],
-      "id": "39b5cbee-6541-4f67-83bb-bf2485b32e2f",
+      "id": "5768fe63-3034-434f-9fdf-c0cec605fd71",
       "name": "New Jobs",
       "executeOnce": true
     },
@@ -1451,10 +1451,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4176,
-        304
+        4080,
+        384
       ],
-      "id": "cb39c110-8abc-45af-8293-57ee8f245a80",
+      "id": "bf1991c6-b858-4f21-888b-4900db8d2b64",
       "name": "Cover Letter Template"
     },
     {
@@ -1470,10 +1470,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4864,
-        112
+        4752,
+        192
       ],
-      "id": "2c51e8a9-6912-4761-a347-a0bee2577126",
+      "id": "e8430824-6b2e-4d8c-89fa-12b7f78d48a2",
       "name": "Resume Template"
     },
     {
@@ -1494,10 +1494,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        4752,
-        304
+        4640,
+        384
       ],
-      "id": "b1666480-a84f-4517-a67d-89c297c1f691",
+      "id": "f8eaee28-3996-41c3-8882-b4caa9b707a5",
       "name": "Upload Cover Letter.pdf"
     },
     {
@@ -1518,10 +1518,10 @@
       "type": "n8n-nodes-base.googleDrive",
       "typeVersion": 3,
       "position": [
-        5440,
-        112
+        5328,
+        192
       ],
-      "id": "3b2f7ddb-3fe7-497c-8c42-a078342e1835",
+      "id": "d9e614be-efc6-4b30-96b3-36904bf5d989",
       "name": "Upload Resume.pdf"
     },
     {
@@ -1541,10 +1541,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        6016,
-        208
+        5904,
+        288
       ],
-      "id": "0afa5ae3-2453-4bf9-9fe9-71b6a65f6982",
+      "id": "083ec3ef-2555-4b3c-9f5b-db6c759a44e3",
       "name": "Update Row"
     },
     {
@@ -1564,10 +1564,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        2672,
-        656
+        2560,
+        736
       ],
-      "id": "a78d2f87-c510-4e63-897e-68451be32478",
+      "id": "1467e736-def6-429e-8bf1-603ca01dd86b",
       "name": "Update Recruiter Email Status"
     },
     {
@@ -1587,10 +1587,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        2672,
-        848
+        2560,
+        928
       ],
-      "id": "74634137-00ef-4a4e-b831-ca24ea2e776d",
+      "id": "6a3e5cab-89b2-4c4a-9ce7-64d0e2dfeb41",
       "name": "Update Hiring Manager Email Status"
     },
     {
@@ -1609,10 +1609,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        3232,
-        752
+        3120,
+        832
       ],
-      "id": "1826e438-1608-430f-aa49-f5242f64ebee",
+      "id": "6337ddd6-c4d0-4524-b852-87eb5fb8b260",
       "name": "Get Row For Job Application"
     },
     {
@@ -1632,10 +1632,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        4928,
-        752
+        4816,
+        832
       ],
-      "id": "1f11b376-3e24-4622-929f-6c7cf7d9f0f3",
+      "id": "68731b74-dc5a-4b8b-a2d6-f0c639d3554e",
       "name": "Update Job Status"
     },
     {
@@ -1652,10 +1652,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        192,
-        752
+        80,
+        832
       ],
-      "id": "c8e3dfb2-27cf-4de3-b5b8-bca4fd475cf2",
+      "id": "79f95061-9c79-462b-a50f-35926ed52c25",
       "name": "ATLAS - EMAIL SENDER"
     },
     {
@@ -1676,10 +1676,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.3,
       "position": [
-        192,
-        208
+        80,
+        288
       ],
-      "id": "f95c26cf-d550-46d9-a733-e69906136cf9",
+      "id": "12dfe205-ba34-416d-8c1a-71f98b2bc41d",
       "name": "ATLAS - SEARCH AND CREATION"
     },
     {
@@ -1710,10 +1710,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2128,
-        208
+        2016,
+        288
       ],
-      "id": "00462b2b-2bf7-4c13-b75b-712834047b2f",
+      "id": "589a878c-ecf4-420d-9883-892cbd91c455",
       "name": "Check if Job URLs Exist"
     },
     {
@@ -1732,10 +1732,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        384,
-        752
+        272,
+        832
       ],
-      "id": "16963d9e-0c23-46bc-ae8b-3ee8c7e0d191",
+      "id": "91387031-9249-4c67-9db1-ca5b730bdf21",
       "name": "Get Rows For Emails"
     },
     {
@@ -1754,10 +1754,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        592,
-        752
+        480,
+        832
       ],
-      "id": "b9c4a41e-1e7d-4a74-90d3-5851d4288ea7",
+      "id": "0d5da455-fff6-4130-ac47-abc6a3b92371",
       "name": "Get Rows For Emails With Email Status Check",
       "executeOnce": true
     },
@@ -1778,10 +1778,10 @@
       "type": "n8n-nodes-base.googleSheets",
       "typeVersion": 4.7,
       "position": [
-        2304,
-        208
+        2192,
+        288
       ],
-      "id": "950c14ab-857b-48f0-9567-76dbb3b4b611",
+      "id": "515020de-8f3d-4110-a80f-0b20c457d5a1",
       "name": "Add New Jobs"
     }
   ],
@@ -1828,11 +1828,6 @@
     "Cover Letter Map": {
       "main": [
         [
-          {
-            "node": "Updated Cover Letter",
-            "type": "main",
-            "index": 0
-          },
           {
             "node": "Cover Letter Template",
             "type": "main",
@@ -2738,6 +2733,17 @@
           }
         ]
       ]
+    },
+    "Cover Letter Template": {
+      "main": [
+        [
+          {
+            "node": "Updated Cover Letter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
@@ -2745,10 +2751,10 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "96f74f9c-e55d-480c-8a17-341d35923308",
+  "versionId": "176d0606-d3e0-46b7-bad0-9848bc508a9c",
   "meta": {
     "instanceId": "4b493b054b8d702698bc663a19ba338c8f818532fa40f5052e6e7174b451fa46"
   },
-  "id": "GlN35jyOM78mQt4A",
+  "id": "soxJXGxN78bC3Rqd",
   "tags": []
 }
